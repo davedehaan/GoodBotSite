@@ -11,13 +11,19 @@
 */
 
 Route::get('/', function () {
+    return view('welcome', [
+    ]);
+});
+
+
+Route::get('/upload', function () {
     return view('upload', [
         'id' => request()->query('id'),
         'path' => request()->query('path')
     ]);
 });
 
-Route::post('/', function () {
+Route::post('/upload', function () {
     $server = request()->server_id;
     request()->file->storeAs('uploads', $server . '-' . request()->file->getClientOriginalName());
     return view('upload', [

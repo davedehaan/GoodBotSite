@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>GoodEPGP | Upload</title>
+        <title>GoodBot | API</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -48,14 +48,13 @@
                 font-size: 84px;
             }
 
-            .links > a {
+            a {
                 color: #636b6f;
                 padding: 0 25px;
                 font-size: 13px;
                 font-weight: 600;
                 letter-spacing: .1rem;
                 text-decoration: none;
-                text-transform: uppercase;
             }
 
             .m-b-md {
@@ -77,7 +76,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    GoodEPGP Upload
+                    GoodBot API
                 </div>
 
                 <div class="main">
