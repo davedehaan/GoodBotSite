@@ -17,7 +17,7 @@ class RaidSignup extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->player,
-            'reserve' => $this->reserve->item->name,
+            'reserve' => $this->reserve ? $this->reserve->item->name : null,
             'confirmed' => $this->confirmed,
             'createdAt' => $this->createdAt
         ];
