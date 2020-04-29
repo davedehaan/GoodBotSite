@@ -19,36 +19,48 @@ use App\Http\Resources\RaidFull AS RaidFullResource;
 |
 */
 
-Route::get('/raids/{guildID}', function($guildID) {
-    $raids = Raid::where('guildID', $guildID)
-        ->where('date', '>', date('Y-m-d, h:i:s'))
-        ->get();
-
-    return RaidResource::collection($raids);
-});
-
-Route::get('/raid/{raidID}', function($raidID) {
-    $raid = Raid::with(['signups', 'signups.reserve.item'])
-        ->find($raidID);
+Route::middleware(['api'])->group(function() {
+    Route::get('/raids', function() {
+        $guildID = request()->get('access')->guildID;
+        $raids = Raid::where('guildID', $guildID)
+            ->where('date', '>', date('Y-m-d, h:i:s'))
+            ->get();
     
-    return new RaidFullResource($raid);
+        return RaidResource::collection($raids);
+    });
+    
+    Route::get('/raid/{raidID}', function($raidID) {
+        $guildID = request()->get('access')->guildID;
+        $raid = Raid::with(['signups', 'signups.reserve.item'])
+            ->where('guildID', $guildID)
+            ->find($raidID);
+        
+        return new RaidFullResource($raid);
+    });
+    
+    
+    Route::get('/signups', function(Request $request) {
+        $memberID = $request->get('access')->memberID;
+        $signups = Signup::where('memberID', $memberID)
+            ->whereHas('raid', function($q) {
+                $q->where('date', '>', date('Y-m-d, h:i:s'));
+            })
+            ->with(['raid', 'reserve', 'reserve.item'])
+            ->get();
+
+        return SignupResource::collection($signups);
+    });
+    
+    Route::get('/signups/{name}', function($name) {
+        $guildID = request()->get('access')->guildID;
+        $signups = Signup::where('player', $name)
+            ->where('guildID', $guildID)
+            ->whereHas('raid', function($q) {
+                $q->where('date', '>', date('Y-m-d, h:i:s'));
+            })
+            ->with(['raid', 'reserve', 'reserve.item'])
+            ->get();
+        return SignupResource::collection($signups);
+    });
+  
 });
-
-
-Route::get('/signups/member/{memberID}', function($memberID) {
-    $signups = Signup::where('memberID', $memberID)
-        ->with(['raid', 'reserve', 'reserve.item'])
-        ->get();
-
-    return SignupResource::collection($signups);
-});
-
-Route::get('/signups/name/{name}/{guildID}', function($name, $guildID) {
-    $signups = Signup::where('player', $name)
-        ->where('guildID', $guildID)
-        ->with(['raid', 'reserve', 'reserve.item'])
-        ->get();
-
-    return SignupResource::collection($signups);
-});
-
