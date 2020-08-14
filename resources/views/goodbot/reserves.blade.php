@@ -29,6 +29,9 @@
     .reserve-select {
         display: none;
     }
+    a i {
+        cursor: pointer;
+    }
 </style>
 <h2>Raid Signups: {{ $raid->name ? $raid->name : $raid->raid}}</h2>
 <a href="/{{ $hash->hash }}">&larr; Back</a>
@@ -48,18 +51,22 @@
         </tr>
         @foreach ($signups AS $signup) 
             @if ($signup->signup == 'yes')
-                <tr>
+                <tr signup="{{ $signup->id }}">
                     <td>{{ $signup->player }}</td>
                     <td>
                         @if ($signup->reserve)
                             <a href="#" id="reserve-link-{{ $signup->id }}" data-wowhead="item={{ $signup->reserve->item->itemID }}">{{ $signup->reserve->item->name }}</a>
                         @else
-                            none
+                            <a id="reserve-link-{{ $signup->id }}">none</a>
                         @endif
                         <select class="reserve-select" id="reserve-select-{{ $signup->id }}" onchange="saveReserve(this.value, {{ $signup->id }});">
                             <option value="0">None</option>
                             @foreach ($items AS $item)
-                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                <option value="{{ $item->id }}"
+                                    @if ($signup->reserve && $signup->reserve->item->id == $item->id)
+                                        selected
+                                    @endif
+                                >{{ $item->name }}</option>
                             @endforeach
                         </select>
                     </td>
@@ -80,8 +87,17 @@
         window.location = '/reserve/' + signupID + '/' + itemID;
     }
     function showSelect(signupID) {
-        $('#reserve-select-' + signupID).show();
-        $('#reserve-link-' + signupID).hide();
+        var row = $('[signup=' + signupID + ']');
+        var icon = row.find('i');
+        if (icon.hasClass('fa-pencil')) {
+            row.find('i').removeClass('fa-pencil').addClass('fa-ban');
+            $('#reserve-select-' + signupID).show();
+            $('#reserve-link-' + signupID).hide();
+        } else {
+            row.find('i').removeClass('fa-ban').addClass('fa-pencil');
+            $('#reserve-select-' + signupID).hide();
+            $('#reserve-link-' + signupID).show();
+        }
     }
 </script>
 @endsection

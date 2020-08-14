@@ -48,7 +48,10 @@ class GoodBotController extends Controller
     {
         $raid = Raid::with(['signups', 'signups.reserve', 'signups.reserve.item'])->where('id', $id)->first();
         $signups = $raid->signups->sortBy(function($signup) {
-            return $signup->reserve ? $signup->reserve->item->name : 0;
+            if (!$signup->reserve) {
+                return 0;
+            }
+            return $signup->reserve->item->name;
         });
         $hash = RaidHash::where('memberID', $raid->memberID)
             ->where('guildID', $raid->guildID)
