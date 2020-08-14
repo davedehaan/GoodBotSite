@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Raid;
 use App\RaidReserve;
+use App\ReserveItem;
 use App\RaidHash;
 use App\Signup;
 
@@ -46,6 +47,9 @@ class GoodBotController extends Controller
     public function reserves($id)
     {
         $raid = Raid::with(['signups', 'signups.reserve', 'signups.reserve.item'])->where('id', $id)->first();
+        $signups = $raid->signups->sortBy(function($signup) {
+            return $signup->reserve ? $signup->reserve->item->name : 0;
+        });
         $hash = RaidHash::where('memberID', $raid->memberID)
             ->where('guildID', $raid->guildID)
             ->first();
@@ -53,10 +57,21 @@ class GoodBotController extends Controller
             abort(404);
         }
 
+        $items = ReserveItem::where('raid', $raid->raid)->orderBy('name')->get();
         
         return view('goodbot.reserves')
         ->with('hash', $hash)
         ->with('raid', $raid)
-        ->with('signups', $raid->signups);
+        ->with('items', $items)
+        ->with('signups', $signups);
+    }
+
+    public function reserve($signupID, $itemID) {
+        $signup = Signup::findOrFail($signupID);
+        RaidReserve::updateOrCreate(
+            ['signupID' => $signupID, 'raidID' => $signup->raidID],
+            ['reserveItemID' => $itemID]
+        );
+        return redirect()->route('reserves', ['id' => $signup->raidID]);
     }
 }

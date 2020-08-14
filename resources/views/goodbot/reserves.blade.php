@@ -3,6 +3,7 @@
 @section('content')
 <script>const whTooltips = {colorLinks: true, iconizeLinks: true, renameLinks: true};</script>
 <script src="https://wow.zamimg.com/widgets/power.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
     th, td {
         text-align: left;
@@ -25,6 +26,9 @@
         border-left: dotted 1px #CCC;
         border-right: dotted 1px #CCC;
     }
+    .reserve-select {
+        display: none;
+    }
 </style>
 <h2>Raid Signups: {{ $raid->name ? $raid->name : $raid->raid}}</h2>
 <a href="/{{ $hash->hash }}">&larr; Back</a>
@@ -38,8 +42,9 @@
     <div class="row justify-content-center">
         <table>
         <tr>
-            <th>Name</th>
-            <th>Reserve</th>
+            <th style="wdith: 200px;">Name</th>
+            <th style="width: 400px;">Reserve</th>
+            <th>
         </tr>
         @foreach ($signups AS $signup) 
             @if ($signup->signup == 'yes')
@@ -47,10 +52,21 @@
                     <td>{{ $signup->player }}</td>
                     <td>
                         @if ($signup->reserve)
-                            <a href="#" data-wowhead="item={{ $signup->reserve->item->itemID }}">{{ $signup->reserve->item->name }}</a>
+                            <a href="#" id="reserve-link-{{ $signup->id }}" data-wowhead="item={{ $signup->reserve->item->itemID }}">{{ $signup->reserve->item->name }}</a>
                         @else
                             none
                         @endif
+                        <select class="reserve-select" id="reserve-select-{{ $signup->id }}" onchange="saveReserve(this.value, {{ $signup->id }});">
+                            <option value="0">None</option>
+                            @foreach ($items AS $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <a onclick="showSelect({{ $signup->id }});">
+                            <i class="fa fa-pencil"></i>
+                        </a>
                     </td>
                 </tr>
             @endif
@@ -59,4 +75,13 @@
         <br /><br />
     </div>
 </div>
+<script>
+    function saveReserve(itemID, signupID) {
+        window.location = '/reserve/' + signupID + '/' + itemID;
+    }
+    function showSelect(signupID) {
+        $('#reserve-select-' + signupID).show();
+        $('#reserve-link-' + signupID).hide();
+    }
+</script>
 @endsection
