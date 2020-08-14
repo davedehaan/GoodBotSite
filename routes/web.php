@@ -30,7 +30,9 @@ Route::post('/upload', function () {
         'path' => request()->query('path')
     ]);
 })->name('upload');\
-Route::get('/signups/{id}', 'GoodBotController@signups');
+Route::get('/s/{id}', 'GoodBotController@signups')->name('s');
+Route::get('/signups/{id}', 'GoodBotController@signups')->name('signups');
+Route::get('/r/{id}', 'GoodBotController@reserves')->name('r');
 Route::get('/reserves/{id}', 'GoodBotController@reserves')->name('reserves');
 Route::get('/reserve/{signupID}/{itemID}', 'GoodBotController@reserve');
 Route::get('{raid}', 'GoodBotController@index');
