@@ -15,7 +15,6 @@ Route::get('/', function () {
     ]);
 });
 
-
 Route::get('/upload', function () {
     return view('upload', [
         'id' => request()->query('id'),
@@ -30,4 +29,6 @@ Route::post('/upload', function () {
         'id' => request()->query('id'),
         'path' => request()->query('path')
     ]);
-})->name('upload');
+})->name('upload');\
+Route::get('/signups/{id}', 'GoodBotController@signups');
+Route::get('{raid}', 'GoodBotController@index');
