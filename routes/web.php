@@ -31,4 +31,5 @@ Route::post('/upload', function () {
     ]);
 })->name('upload');\
 Route::get('/signups/{id}', 'GoodBotController@signups');
+Route::get('/reserves/{id}', 'GoodBotController@reserves');
 Route::get('{raid}', 'GoodBotController@index');

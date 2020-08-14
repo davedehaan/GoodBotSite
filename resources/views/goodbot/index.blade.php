@@ -27,8 +27,9 @@
             <td>{{ $raid->name ? $raid->name : $raid->raid}}</td>
             <td>{{ $raid->raid }}</td>
             <td><a href="/signups/{{ $raid->id }}">Signups &rarr;</a></td>
+            <td><a href="/reserves/{{ $raid->id }}">Reserves &rarr;</a></td>
             <td>
-                <a target="_blank" href="https://discord.com/channels/{{ $raid->guildID }}/{{ $raid->channelID }}">Discord &rarr;</a>
+                <a target="_blank" href="discord://discord.com/channels/{{ $raid->guildID }}/{{ $raid->channelID }}">Discord &rarr;</a>
             </td>
         </tr>
         @endforeach
