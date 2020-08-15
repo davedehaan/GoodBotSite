@@ -30,6 +30,7 @@ Route::post('/upload', function () {
         'path' => request()->query('path')
     ]);
 })->name('upload');
+Route::get('/darkmode', 'UserController@darkmode')->name('darkmode');
 Route::get('/logout', 'UserController@logout')->name('logout');
 Route::group(['middleware' => ['oauth']], function() {
     Route::get('/OAuth', 'GoodBotController@OAuth')->name('OAuth');

@@ -7,6 +7,40 @@
 		<link rel="stylesheet" href="/assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="/assets/css/noscript.css" /></noscript>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		@if (session()->get('darkmode'))
+			<style>
+				body {
+					background: #333;
+				}
+				.wrapper.style2, .wrapper.style3 {
+					background: #772200;
+				}
+				#header, #footer {
+					background: #772200;
+					color: #CCC;
+				}
+				h1#logo {
+					color: #CCC;
+				}
+				table th {
+					color: #CCC;
+				}
+				h2 {
+					color: #CCC;
+				}
+				#main section {
+					color: #CCC;
+				}
+				.button.primary {
+					background: #CC9900;
+					border: solid 1px #CCC;
+				}
+				.dropotron {
+					background: #772200;
+					color: #CCC;
+				}
+			</style>
+		@endif
 	</head>
 	<body class="index is-preload">
 		<div id="page-wrapper">
@@ -24,7 +58,14 @@
                                 <li class="submenu">
                                     <a href="#" class="">Welcome, {{ session()->get('user')->username }}</a>
                                     <ul>
-                                        <li><a href="/characters">Characters</a></li>
+									<li><a href="/characters">Characters</a></li>
+									<li>
+										@if (!session()->get('darkmode'))
+										<a href="/darkmode">Dark Mode</a>
+										@else
+										<a href="/darkmode">Light Mode</a>
+										@endif
+									</li>
                                         <!-- <li><a href="/raids">Raids</a></li> -->
                                         <li><a href="/logout">Log Out</a></li>
                                     </ul>

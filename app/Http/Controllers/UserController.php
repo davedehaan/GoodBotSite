@@ -13,6 +13,16 @@ class UserController extends Controller
         session()->forget('guilds');
         return redirect('/');
     }
+
+    public function darkmode() {
+        $darkmode = session()->get('darkmode');
+        if ($darkmode) {
+            session(['darkmode' => 0]);
+        } else {
+            session(['darkmode' => 1]);
+        }
+        return back();
+    }
 }
 
 ?>
