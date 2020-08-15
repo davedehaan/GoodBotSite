@@ -64,6 +64,33 @@
                 cursor: pointer;
                 border-radius: 5px;
             }
+            th, td {
+                text-align: left;
+                padding: 5px 10px;
+                border-bottom: dotted 1px #CCC;
+            }
+            td a {
+                padding: 0;
+            }
+            .justify-content-left {
+                text-align: left;
+            }
+
+            .justify-content-center {
+                text-align: center;
+            }
+
+            table {
+                width: 100%;
+                border-left: dotted 1px #CCC;
+                border-right: dotted 1px #CCC;
+            }
+            .reserve-select {
+                display: none;
+            }
+            a i {
+                cursor: pointer;
+            }
         </style>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     </head>
@@ -75,7 +102,9 @@
                 <div class="title m-b-md">
                     GoodBot
                 </div>
-
+                @if (session()->get('user'))
+                    Welcome <strong>{{ session()->get('user')->username }}<strong> <a href="/characters">My Characters &rarr;</a> <a href="/logout">log out &rarr;</a>
+                @endif
                 <div class="main">
                     @yield('content')
                 </div>

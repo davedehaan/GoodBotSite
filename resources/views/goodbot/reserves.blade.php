@@ -4,35 +4,6 @@
 <script>const whTooltips = {colorLinks: true, iconizeLinks: true, renameLinks: true};</script>
 <script src="https://wow.zamimg.com/widgets/power.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-    th, td {
-        text-align: left;
-        padding: 5px 10px;
-        border-bottom: dotted 1px #CCC;
-    }
-    td a {
-        padding: 0;
-    }
-    .justify-content-left {
-        text-align: left;
-    }
-
-    .justify-content-center {
-        text-align: center;
-    }
-
-    table {
-        width: 100%;
-        border-left: dotted 1px #CCC;
-        border-right: dotted 1px #CCC;
-    }
-    .reserve-select {
-        display: none;
-    }
-    a i {
-        cursor: pointer;
-    }
-</style>
 <h2>Raid Signups: {{ $raid->name ? $raid->name : $raid->raid}}</h2>
 <a href="/{{ $hash->hash }}">&larr; Back</a>
 <div class="container">

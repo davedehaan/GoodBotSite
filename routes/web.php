@@ -29,10 +29,16 @@ Route::post('/upload', function () {
         'id' => request()->query('id'),
         'path' => request()->query('path')
     ]);
-})->name('upload');\
-Route::get('/s/{id}', 'GoodBotController@signups')->name('s');
-Route::get('/signups/{id}', 'GoodBotController@signups')->name('signups');
-Route::get('/r/{id}', 'GoodBotController@reserves')->name('r');
-Route::get('/reserves/{id}', 'GoodBotController@reserves')->name('reserves');
-Route::get('/reserve/{signupID}/{itemID}', 'GoodBotController@reserve');
-Route::get('{raid}', 'GoodBotController@index');
+})->name('upload');
+Route::get('/logout', 'UserController@logout')->name('logout');
+Route::group(['middleware' => ['oauth']], function() {
+    Route::get('/OAuth', 'GoodBotController@OAuth')->name('OAuth');
+    Route::get('/characters', 'CharacterController@index')->name('OAuth');
+    Route::get('/characters/{serverID}', 'CharacterController@server')->name('OAuth');
+    Route::get('/s/{id}', 'GoodBotController@signups')->name('s');
+    Route::get('/signups/{id}', 'GoodBotController@signups')->name('signups');
+    Route::get('/r/{id}', 'GoodBotController@reserves')->name('r');
+    Route::get('/reserves/{id}', 'GoodBotController@reserves')->name('reserves');
+    Route::get('/reserve/{signupID}/{itemID}', 'GoodBotController@reserve');
+    Route::get('{raid}', 'GoodBotController@index');
+});

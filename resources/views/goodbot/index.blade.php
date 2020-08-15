@@ -1,16 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-    th, td {
-        text-align: left;
-        padding: 5px 10px;
-        border-bottom: dotted 1px #CCC;
-    }
-    td a {
-        padding: 0;
-    }
-</style>
 <h2>Raid Signups: {{ $raidName }}</h2>
 <div class="container">
     <div class="row justify-content-center">

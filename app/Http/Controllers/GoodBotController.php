@@ -11,6 +11,10 @@ use App\Signup;
 
 class GoodBotController extends Controller
 {
+    public function OAuth() {
+        
+    }
+
     public function index($raidName)
     {
 
