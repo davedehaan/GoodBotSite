@@ -19,7 +19,7 @@
                         <li class="current"><a href="/">Home</a></li>
                         <li class="current"><a class="button primary" target="_blank" href="https://discordapp.com/oauth2/authorize?client_id=525115228686516244&permissions=8&scope=bot">Add GoodBot</a></li>
                             @if (empty(session()->get('user')))
-                                <li><a href="/OAuth" class="button">Sign In</a></li>
+                                <li><a href="/characters" class="button">Sign In</a></li>
                             @else
                                 <li class="submenu">
                                     <a href="#" class="">Welcome, {{ session()->get('user')->username }}</a>
