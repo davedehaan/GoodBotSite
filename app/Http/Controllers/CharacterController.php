@@ -27,25 +27,68 @@ class CharacterController extends Controller
         if (empty($currentServer)) {
             abort(404);
         }
-        $nick = property_exists($currentServer->member, 'nick') ? $currentServer->member->nick : null;
         $characters = [];
-        if (!empty($nick)) {
-            $main = Character::where('name', $nick)
-            ->where('guildID', $currentServer->id)
-            ->first();
-            if (!empty($main)) {
-                $characters[] = $main;
-                $alts = Character::where('mainID', $main->id)->get();
-                foreach ($alts as $alt) {
-                    $characters[] = $alt;
-                }
+        $classes = [
+            'warrior', 'paladin', 'shaman', 'hunter', 'rogue', 'druid', 'priest', 'warlock', 'mage'
+        ];
+        $roles = [
+            'dps', 'caster', 'tank', 'healer'
+        ];
+        $main = $this->getMain($currentServer->id);
+        if (!empty($main)) {
+            $characters[] = $main;
+            $alts = Character::where('mainID', $main->id)->get();
+            foreach ($alts as $alt) {
+                $characters[] = $alt;
             }
         }
 
         return view('characters.server')
         ->with('server', $currentServer)
-        ->with('characters', $characters);
+        ->with('characters', $characters)
+        ->with('classes', $classes)
+        ->with('roles', $roles);
+    }
+
+    public function save($serverID, $characterID) {
+        $name = request()->query('name');
+        $class = request()->query('class');
+        $role = request()->query('role');
+        $record = [
+            'name' => $name,
+            'class' => $class,
+            'role' => $role,
+            'memberID' => session()->get('user')->id
+        ];
+
+        $main = $this->getMain($serverID);
+        if (!$main) {
+            abort(404);
+        }
+        if (empty($characterID)) {
+            $record['guildID'] = $serverID;
+            $record['mainID'] = $main->id;
+            Character::create($record);
+        } else {
+            Character::where('id', $characterID)->update($record);
+        }
+        return redirect()->route('character.list', ['serverID' => $serverID]);
     }
 
 
+
+    public function getMain($serverID) {
+        $user = session()->get('user');
+        $userInfo = $this->botRequest('/guilds/' . $serverID . '/members/' . $user->id);
+        if (property_exists($userInfo, 'user')) {
+            $nick = property_exists($userInfo, 'nickname') ? $userInfo->nickname : $userInfo->user->username;
+        }
+        if (!empty($nick)) {
+            $main = Character::where('name', $nick)
+                ->where('guildID', $serverID)
+                ->first();
+            return $main;
+        }
+        return false;
+    }
 }

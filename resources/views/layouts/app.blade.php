@@ -1,114 +1,72 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>GoodBot</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="/assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="/assets/css/noscript.css" /></noscript>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	</head>
+	<body class="index is-preload">
+		<div id="page-wrapper">
 
-        <title>GoodBot</title>
+			<!-- Header -->
+				<header id="header" class="alt">
+					<h1 id="logo"><a href="/">GoodBot</a></h1>
+					<nav id="nav">
+						<ul>
+                        <li class="current"><a href="/">Home</a></li>
+                        <li class="current"><a class="button primary" target="_blank" href="https://discordapp.com/oauth2/authorize?client_id=525115228686516244&permissions=8&scope=bot">Add GoodBot</a></li>
+                            @if (empty(session()->get('user')))
+                                <li><a href="/OAuth" class="button">Sign In</a></li>
+                            @else
+                                <li class="submenu">
+                                    <a href="#" class="">Welcome, {{ session()->get('user')->username }}</a>
+                                    <ul>
+                                        <li><a href="/characters">Characters</a></li>
+                                        <!-- <li><a href="/raids">Raids</a></li> -->
+                                        <li><a href="/logout">Log Out</a></li>
+                                    </ul>
+                                </li>
+                            @endif
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+						</ul>
+					</nav>
+				</header>
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-            
-            button {
-                padding: 10px 30px;
-                background: #CCC;
-                border: solid 1px #333;
-                cursor: pointer;
-                border-radius: 5px;
-            }
-            th, td {
-                text-align: left;
-                padding: 5px 10px;
-                border-bottom: dotted 1px #CCC;
-            }
-            td a {
-                padding: 0;
-            }
-            .justify-content-left {
-                text-align: left;
-            }
-
-            .justify-content-center {
-                text-align: center;
-            }
-
-            table {
-                width: 100%;
-                border-left: dotted 1px #CCC;
-                border-right: dotted 1px #CCC;
-            }
-            .reserve-select {
-                display: none;
-            }
-            a i {
-                cursor: pointer;
-            }
-        </style>
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
+			<!-- Banner -->
+				<section id="banner">
 
 
-            <div class="content">
-                <div class="title m-b-md">
-                    GoodBot
-                </div>
-                @if (session()->get('user'))
-                    Welcome <strong>{{ session()->get('user')->username }}<strong> <a href="/characters">My Characters &rarr;</a> <a href="/logout">log out &rarr;</a>
-                @endif
-                <div class="main">
-                    @yield('content')
-                </div>
-            </div>
-        </div>
-    </body>
+
+				</section>
+
+			<!-- Main -->
+				<article id="main">
+
+				@yield('content')
+
+			<!-- Footer -->
+				<footer id="footer">
+
+					<ul class="copyright">
+						<li>&copy; {{ date('Y') }} GoodBot</li>
+					</ul>
+
+				</footer>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="/assets/js/jquery.min.js"></script>
+			<script src="/assets/js/jquery.dropotron.min.js"></script>
+			<script src="/assets/js/jquery.scrolly.min.js"></script>
+			<script src="/assets/js/jquery.scrollex.min.js"></script>
+			<script src="/assets/js/browser.min.js"></script>
+			<script src="/assets/js/breakpoints.min.js"></script>
+			<script src="/assets/js/util.js"></script>
+			<script src="/assets/js/main.js"></script>
+
+	</body>
 </html>

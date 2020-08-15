@@ -11,7 +11,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome', [
+    return view('index', [
     ]);
 });
 
@@ -33,8 +33,9 @@ Route::post('/upload', function () {
 Route::get('/logout', 'UserController@logout')->name('logout');
 Route::group(['middleware' => ['oauth']], function() {
     Route::get('/OAuth', 'GoodBotController@OAuth')->name('OAuth');
-    Route::get('/characters', 'CharacterController@index')->name('OAuth');
-    Route::get('/characters/{serverID}', 'CharacterController@server')->name('OAuth');
+    Route::get('/characters', 'CharacterController@index')->name('character.servers');
+    Route::get('/characters/{serverID}', 'CharacterController@server')->name('character.list');
+    Route::get('/characters/save/{serverID}/{characterID}', 'CharacterController@save')->name('character.save');
     Route::get('/s/{id}', 'GoodBotController@signups')->name('s');
     Route::get('/signups/{id}', 'GoodBotController@signups')->name('signups');
     Route::get('/r/{id}', 'GoodBotController@reserves')->name('r');

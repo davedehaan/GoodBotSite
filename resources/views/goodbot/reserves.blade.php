@@ -3,16 +3,12 @@
 @section('content')
 <script>const whTooltips = {colorLinks: true, iconizeLinks: true, renameLinks: true};</script>
 <script src="https://wow.zamimg.com/widgets/power.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<h2>Raid Signups: {{ $raid->name ? $raid->name : $raid->raid}}</h2>
-<a href="/{{ $hash->hash }}">&larr; Back</a>
+<header class="special container">
+    <span class="icon solid fa-clipboard-check"></span>
+    <h2>Raid Reserves<br /> {{ $raid->name ? $raid->name . ' ' . $raid->raid: $raid->raid}}<br />{{ $raid->date }} </h2>
+</header>
+<section class="wrapper style2 container special-alt">
 <div class="container">
-    <div class="row justify-content-left">
-        <strong>Date: </strong> {{ $raid->date }}<br />
-        <strong>Raid: </strong> {{ $raid->raid }}<br />
-        <br />
-        <br />
-    </div>
     <div class="row justify-content-center">
         <table>
         <tr>
@@ -53,6 +49,7 @@
         <br /><br />
     </div>
 </div>
+</section>
 <script>
     function saveReserve(itemID, signupID) {
         window.location = '/reserve/' + signupID + '/' + itemID;

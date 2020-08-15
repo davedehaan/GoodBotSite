@@ -33,9 +33,7 @@ class OAuth
             session(['user' => $user]);
             $guilds = $this->apiRequest($apiURLBase . '/guilds');
             session(['guilds' => $guilds]);
-            foreach ($guilds AS &$guild) {
-                $guild->member = $this->botRequest('/guilds/' . $guild->id . '/members/' . $user->id);
-            }
+            $state = $request->query('state') ? $request->query('state') : '/';
             return redirect($request->query('state'));
         }
 
@@ -52,20 +50,6 @@ class OAuth
               return redirect($authorizeURL . '?' . http_build_query($params));
         }
         return $next($request);
-    }
-
-    function botRequest($endpoint) {
-        $ch = curl_init(env('BOT_API_URL') . $endpoint);
-        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        $headers[] = 'Accept: application/json';
-        $headers[] = 'Authorization: Bot ' . env('BOT_TOKEN');
-      
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);      
-        $response = curl_exec($ch);
-        return json_decode($response);
     }
 
     function apiRequest($url, $post = FALSE, $headers = []) {
