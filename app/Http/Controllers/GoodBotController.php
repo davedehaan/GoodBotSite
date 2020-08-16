@@ -12,7 +12,7 @@ use App\Signup;
 class GoodBotController extends Controller
 {
     public function OAuth() {
-        
+        return redirect()->route('character.servers');
     }
 
     public function index($raidName)
