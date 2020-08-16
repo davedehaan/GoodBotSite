@@ -56,8 +56,8 @@ class GoodBotController extends Controller
             $signupList[] = $signup;
         }
         usort($signupList, function($a, $b) { 
-            $aItem = $a->reserve ? $a->reserve->item : '-';
-            $bItem = $b->reserve ? $b->reserve->item : '-';
+            $aItem = $a->reserve ? $a->reserve->item->name : '-';
+            $bItem = $b->reserve ? $b->reserve->item->name : '-';
             return $bItem <=> $aItem;
          });
 
