@@ -51,12 +51,16 @@ class GoodBotController extends Controller
     public function reserves($id)
     {
         $raid = Raid::with(['signups', 'signups.reserve', 'signups.reserve.item'])->where('id', $id)->first();
-        $signups = $raid->signups->sortBy(function($signup) {
-            if (!$signup->reserve) {
-                return 0;
-            }
-            return $signup->reserve->item->name;
-        });
+        $signupList = [];
+        foreach ($raid->signups AS $signup) {
+            $signupList[] = $signup;
+        }
+        usort($signupList, function($a, $b) { 
+            $aItem = $a->reserve ? $a->reserve->item : '-';
+            $bItem = $b->reserve ? $b->reserve->item : '-';
+            return $bItem <=> $aItem;
+         });
+
         $hash = RaidHash::where('memberID', $raid->memberID)
             ->where('guildID', $raid->guildID)
             ->first();
@@ -70,7 +74,7 @@ class GoodBotController extends Controller
         ->with('hash', $hash)
         ->with('raid', $raid)
         ->with('items', $items)
-        ->with('signups', $signups);
+        ->with('signups', $signupList);
     }
 
     public function reserve($signupID, $itemID) {
