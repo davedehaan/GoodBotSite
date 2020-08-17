@@ -74,6 +74,7 @@
                                     <a href="#" class="">Welcome, {{ session()->get('user')->username }}</a>
                                     <ul>
 									<li><a href="/characters">Characters</a></li>
+									<li><a href="/dashboard">Dashboard</a></li>
 									<li>
 										@if (!session()->get('darkmode'))
 										<a href="/darkmode">Dark Mode</a>

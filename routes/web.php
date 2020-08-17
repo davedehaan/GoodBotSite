@@ -10,10 +10,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('index', [
-    ]);
-});
 
 Route::get('/upload', function () {
     return view('upload', [
@@ -30,8 +26,24 @@ Route::post('/upload', function () {
         'path' => request()->query('path')
     ]);
 })->name('upload');
+
+// Dashboard Routes
+Route::group(['middlware' => 'admin'], function() {
+    Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
+    Route::get('/dashboard/{id}', 'DashboardController@dashboard')->name('dashboard');
+    Route::get('/dashboard/logs/{id}', 'DashboardController@logs')->name('logs');
+    Route::get('/dashboard/options/{id}', 'DashboardController@options')->name('options');
+    Route::post('/dashboard/options/{id}', 'DashboardController@postOptions')->name('options.post');
+});
+
+// No Auth Routes
+Route::get('/', function () {
+    return view('index');
+});
 Route::get('/darkmode', 'UserController@darkmode')->name('darkmode');
 Route::get('/logout', 'UserController@logout')->name('logout');
+
+// Player Routes
 Route::group(['middleware' => ['oauth']], function() {
     Route::get('/OAuth', 'GoodBotController@OAuth')->name('OAuth');
     Route::get('/characters', 'CharacterController@index')->name('character.servers');
@@ -44,3 +56,4 @@ Route::group(['middleware' => ['oauth']], function() {
     Route::get('/reserve/{signupID}/{itemID}', 'GoodBotController@reserve');
     Route::get('{raid}', 'GoodBotController@index');
 });
+

@@ -7,13 +7,15 @@
 </header>
 <section class="wrapper style2 container special-alt">
     <div class="container">
-        <strong>Server Selection</strong><br />
-        <select onchange="window.location='/characters/' + this.value">
-            <option>-</option>
-            @foreach ($servers AS $server)
-                <option value="{{ $server->id }}">{{ $server->name}}</option>
-            @endforeach
-        </select>
+        <div class="row aln-center">
+            <h3>Server Selection</h3>
+            <select class="large-select" onchange="window.location='/characters/' + this.value">
+                <option>-</option>
+                @foreach ($servers AS $server)
+                    <option value="{{ $server->id }}">{{ $server->name}}</option>
+                @endforeach
+            </select>
+        </div>
     </div>
 </section>
 @endsection

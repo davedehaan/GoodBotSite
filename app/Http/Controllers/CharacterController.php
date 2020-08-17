@@ -10,7 +10,6 @@ class CharacterController extends Controller
     public function index()
     {
         $servers = session()->get('guilds');
-        usort($servers, function($a, $b) { return $a->name <=> $b->name; });
         return view('characters.index')
         ->with('servers', $servers);
     }

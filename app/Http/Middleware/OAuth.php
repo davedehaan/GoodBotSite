@@ -32,6 +32,7 @@ class OAuth
             $user = $this->apiRequest($apiURLBase);
             session(['user' => $user]);
             $guilds = $this->apiRequest($apiURLBase . '/guilds');
+            usort($guilds, function($a, $b) { return $a->name <=> $b->name; });
             session(['guilds' => $guilds]);
             $state = $request->query('state') ? $request->query('state') : '/';
             return redirect($request->query('state'));
