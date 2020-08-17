@@ -10,7 +10,7 @@
         <div class="gb-row">
             <table>
                 <tr>
-                    <th>Event</th>
+                    <th width="50%">Event</th>
                     <th>User</th>
                     <th>Channel</th>
                     <th>Time/Date</th>
