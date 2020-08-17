@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('content')
 
@@ -11,10 +11,6 @@ table.logs td:last-of-type {
 }
 </style>
 
-<header class="special container">
-    <span class="icon solid fa-running"></span>
-    <h2>Logs: {{ $server->name }}</h2>
-</header>
 <section class="wrapper style2 container special-alt">
     <div class="container">
         <div class="gb-row">

@@ -20,7 +20,49 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		
 		<!-- JQuery UI -->
-		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+        
+        <style>
+            body.index #main {
+                padding-top: 3em;
+            }
+            header.special {
+                padding-top: 0;
+            }
+                            
+                a {
+                    color: #333;
+                    border-bottom: none;
+                }
+                a img {
+                    border: none;
+                }
+                .row h3 {
+                    margin: 0;
+                }
+                .icon.featured {
+                    cursor: pointer;
+                }
+                a:hover {
+                    color: #CCC;
+				}
+				label {
+					display: block;
+					width: 100%
+					clear: both;
+					margin: 10px 0;
+					border-bottom: solid 1px #CCC;
+					color: #333;
+					font-weight: bold;
+				}
+				select, input {
+					width: 50%;
+					height: 30px;
+				}
+				button {
+					margin: 30px 0 10px;
+				}
+        </style>
 
 		@if (session()->get('darkmode'))
 			<style>
@@ -53,7 +95,8 @@
 				.dropotron {
 					background: #772200;
 					color: #CCC;
-				}
+                } 
+
 			</style>
 		@endif
 	</head>
@@ -101,7 +144,12 @@
 
 			<!-- Main -->
 				<article id="main">
-
+                <header class="special container">
+                    <a href="/dashboard/{{ $server->id }}">
+                        <img style="border-radius: 64px;" src="https://cdn.discordapp.com/icons/{{ $server->id }}/{{ $server->icon }}.png" />
+                        <h2>{{ $server->name }}</h2>
+                    </a>
+                </header>
 				@yield('content')
 
 			<!-- Footer -->

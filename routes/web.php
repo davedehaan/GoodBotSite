@@ -32,8 +32,10 @@ Route::group(['middlware' => 'admin'], function() {
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
     Route::get('/dashboard/{id}', 'DashboardController@dashboard')->name('dashboard');
     Route::get('/dashboard/logs/{id}', 'DashboardController@logs')->name('logs');
-    Route::get('/dashboard/options/{id}', 'DashboardController@options')->name('options');
-    Route::post('/dashboard/options/{id}', 'DashboardController@postOptions')->name('options.post');
+    Route::get('/dashboard/settings/{id}', 'DashboardController@settings')->name('settings');
+    Route::post('/dashboard/settings/{id}', 'DashboardController@postSettings')->name('settings.post');
+    Route::get('/dashboard/setup/{id}', 'DashboardController@setup')->name('setup');
+    Route::get('/dashboard/setup/save/{id}', 'DashboardController@setupSave')->name('setup.save');
 });
 
 // No Auth Routes

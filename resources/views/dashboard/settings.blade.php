@@ -1,32 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('content')
-<style>
-    label {
-        display: block;
-        width: 100%
-        clear: both;
-        margin: 10px 0;
-        border-bottom: solid 1px #CCC;
-        color: #333;
-        font-weight: bold;
-    }
-    select, input {
-        width: 50%;
-        height: 30px;
-    }
-    button {
-        margin: 30px 0 10px;
-    }
-</style>
 
-<header class="special container">
-    <span class="icon solid fa-running"></span>
-    <h2>Options: {{ $server->name }}</h2>
-</header>
 <section class="wrapper style2 container special-alt">
     <div class="container">
-        <form method="POST" action="/dashboard/options/{{ $server->id }}">
+        <form method="POST" action="/dashboard/settings/{{ $server->id }}">
             <div class="gb-row">
                 <label for="faction">Faction</label>
                 <select name="faction">
