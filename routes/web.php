@@ -27,17 +27,6 @@ Route::post('/upload', function () {
     ]);
 })->name('upload');
 
-// Dashboard Routes
-Route::group(['middlware' => 'admin'], function() {
-    Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
-    Route::get('/dashboard/{id}', 'DashboardController@dashboard')->name('dashboard');
-    Route::get('/dashboard/logs/{id}', 'DashboardController@logs')->name('logs');
-    Route::get('/dashboard/settings/{id}', 'DashboardController@settings')->name('settings');
-    Route::post('/dashboard/settings/{id}', 'DashboardController@postSettings')->name('settings.post');
-    Route::get('/dashboard/setup/{id}', 'DashboardController@setup')->name('setup');
-    Route::get('/dashboard/setup/save/{id}', 'DashboardController@setupSave')->name('setup.save');
-});
-
 // No Auth Routes
 Route::get('/', function () {
     return view('index');
@@ -47,6 +36,17 @@ Route::get('/logout', 'UserController@logout')->name('logout');
 
 // Player Routes
 Route::group(['middleware' => ['oauth']], function() {
+    // Dashboard Routes
+    Route::group(['middlware' => 'admin'], function() {
+        Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
+        Route::get('/dashboard/{id}', 'DashboardController@dashboard')->name('dashboard');
+        Route::get('/dashboard/logs/{id}', 'DashboardController@logs')->name('logs');
+        Route::get('/dashboard/settings/{id}', 'DashboardController@settings')->name('settings');
+        Route::post('/dashboard/settings/{id}', 'DashboardController@postSettings')->name('settings.post');
+        Route::get('/dashboard/setup/{id}', 'DashboardController@setup')->name('setup');
+        Route::get('/dashboard/setup/save/{id}', 'DashboardController@setupSave')->name('setup.save');
+    });
+
     Route::get('/OAuth', 'GoodBotController@OAuth')->name('OAuth');
     Route::get('/characters', 'CharacterController@index')->name('character.servers');
     Route::get('/characters/{serverID}', 'CharacterController@server')->name('character.list');
