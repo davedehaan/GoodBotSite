@@ -35,7 +35,8 @@ class OAuth
             usort($guilds, function($a, $b) { return $a->name <=> $b->name; });
             session(['guilds' => $guilds]);
             $state = $request->query('state') ? $request->query('state') : '/';
-            return redirect($request->query('state'));
+            $state = str_replace('%2F', '/', $state);
+            return redirect($state);
         }
 
         if (!session()->get('user')) {
@@ -44,7 +45,7 @@ class OAuth
                 'redirect_uri' => env('OAUTH2_REDIRECT_URL'),
                 'response_type' => 'code',
                 'scope' => 'identify guilds',
-                'state' => urlencode($request->path())
+                'state' => $request->path()
               ];
             
               $authorizeURL . '?' . http_build_query($params);
