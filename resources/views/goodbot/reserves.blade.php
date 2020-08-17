@@ -10,12 +10,15 @@
 <section class="wrapper style2 container special-alt">
 <div class="container">
     <div class="row justify-content-center">
-        <table>
-        <tr>
-            <th style="wdith: 200px;">Name</th>
-            <th style="width: 400px;">Reserve</th>
-            <th>
-        </tr>
+        <table id="reserves">
+            <thead>
+                <tr>
+                    <th style="wdith: 200px;">Name</th>
+                    <th style="width: 400px;">Reserve</th>
+                    <th>
+                </tr>
+            </thead>
+        <tbody>
         @foreach ($signups AS $signup) 
             @if ($signup->signup == 'yes')
                 <tr signup="{{ $signup->id }}">
@@ -45,12 +48,21 @@
                 </tr>
             @endif
         @endforeach
+        </tbody>
         </table>
         <br /><br />
     </div>
 </div>
 </section>
+@endsection
+
+@section('scripts')
 <script>
+    $(function(){
+        $('#reserves').tablesorter({
+            sortList: [[1,0], [0,0]]
+        }); 
+    });
     function saveReserve(itemID, signupID) {
         window.location = '/reserve/' + signupID + '/' + itemID;
     }
