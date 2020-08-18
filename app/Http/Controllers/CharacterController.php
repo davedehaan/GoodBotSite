@@ -44,7 +44,7 @@ class CharacterController extends Controller
 
     public function save($serverID, $characterID) {
         // Retrieve the character name from the query
-        $name = ucfirst(request()->query('name'));
+        $name = ucfirst(strtolower(request()->query('name')));
         // Retrieve the user's nickname on this server
         $nick = $this->getNick($serverID);
         // Retrieve the user's main on this server
