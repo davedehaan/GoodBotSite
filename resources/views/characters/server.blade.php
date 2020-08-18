@@ -13,7 +13,7 @@
 <section class="wrapper style2 container special-alt">
     @if (empty($characters))
     <div class="container">
-        <h2>You don't have a character set up on this server yet!</h2>
+        <h2>You don't have a character set up on this server yet, {{ $nick }}!</h2>
         <h4>Let's fix that!</h4>
         <div class="gb-row">
             <label>What is your main's name?</label>

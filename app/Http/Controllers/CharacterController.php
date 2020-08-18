@@ -96,7 +96,7 @@ class CharacterController extends Controller
         $userInfo = $this->botRequest('/guilds/' . $serverID . '/members/' . $user->id);
         $nick = null;
         if (property_exists($userInfo, 'user')) {
-            $nick = property_exists($userInfo, 'nick') ? $userInfo->nick : $userInfo->user->username;
+            $nick = property_exists($userInfo, 'nick') && !empty($userInfo->nick) ? $userInfo->nick : $userInfo->user->username;
         }
         return $nick;
     }

@@ -153,7 +153,7 @@ class DashboardController extends Controller
     }
 
     public function install($serverID) {
-        $currentServer = $this->getServer($serverID);
+        $currentServer = $this->getServer($serverID, false);
         return view('dashboard.install')
             ->with('server', $currentServer);
     }
