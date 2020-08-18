@@ -9,8 +9,8 @@
 <section class="wrapper style2 special-alt">
     <div class="container" step="1">
         <div class="gb-row">
-            <label for="raidCategory">What faction do you play as?</label>
-            <select id="raidCategory" name="raidCategory">
+            <label for="faction">What faction do you play as?</label>
+            <select id="faction" name="faction">
                 <option></option>
                 <option>Alliance</option>
                 <option>Horde</option>
