@@ -45,6 +45,7 @@ Route::group(['middleware' => ['oauth']], function() {
         Route::post('/dashboard/settings/{id}', 'DashboardController@postSettings')->name('settings.post');
         Route::get('/dashboard/setup/{id}', 'DashboardController@setup')->name('setup');
         Route::get('/dashboard/setup/save/{id}', 'DashboardController@setupSave')->name('setup.save');
+        Route::get('/dashboard/install/{id}', 'DashboardController@install')->name('install');
     });
 
     Route::get('/OAuth', 'GoodBotController@OAuth')->name('OAuth');

@@ -3,7 +3,7 @@
 @section('content')
                     <header class="special container">
 						<span class="icon solid fa-chart-bar"></span>
-						<h2>World of Warcraft Raid Roster Management</h2>
+						<h2>World of Warcraft Guild Management</h2>
 						<br />
 						<p>Super-charge your discord with the ability to <strong>look up gear</strong>, <br />quickly and easily <strong>manage raid signups</strong><br /> and even allow players to set a <strong>soft reserve</strong>.
 					</header>

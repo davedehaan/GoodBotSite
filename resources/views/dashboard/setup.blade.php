@@ -8,6 +8,21 @@
 </style>
 <section class="wrapper style2 special-alt">
     <div class="container" step="1">
+    <div class="gb-row">
+            <label for="expansion">What expansion are you on?</label>
+            <select id="expansion" name="expansion">
+                <option></option>
+                <option value="classic">Classic</option>
+                <option value="tbc">Burning Crusade</option>
+                <option value="wotlk">Wrath of the Lich King</option>
+                <option value="boa">Battle for Azeroth</option>
+                <option value="sl">Shadowlands</option>
+            </select>
+        </div>
+        <button onclick="goTo(2);">Next</button>
+
+    </div>
+    <div class="container" step="2">
         <div class="gb-row">
             <label for="faction">What faction do you play as?</label>
             <select id="faction" name="faction">
@@ -17,10 +32,11 @@
                 <option>Both</option>
             </select>
         </div>
-        <button onclick="goTo(2);">Next</button>
+        <button onclick="goTo(1);">Back</button>
+        <button onclick="goTo(3);">Next</button>
     </div>
 
-    <div class="container" step="2">
+    <div class="container" step="3">
         <div class="gb-row">
             <label for="raidCategory">Which category should GoodBot create your raids under?</label>
             <select id="raidCategory" name="raidCategory">
@@ -32,10 +48,10 @@
                 @endforeach
             </select>
         </div>
-        <button onclick="goTo(1);">Back</button>
-        <button onclick="goTo(3);">Next</button>
+        <button onclick="goTo(2);">Back</button>
+        <button onclick="goTo(4);">Next</button>
     </div>
-    <div class="container" step="3">
+    <div class="container" step="4">
         <div class="gb-row">
             <label for="setup">Would you like channels set up for setting name, class and role?</label>
             <select id="setup" name="setup">
@@ -44,10 +60,10 @@
                 <option>No</option>               
             </select>
         </div>
-        <button onclick="goTo(2);">Back</button>
-        <button onclick="goTo(4);">Next</button>
+        <button onclick="goTo(3);">Back</button>
+        <button onclick="goTo(5);">Next</button>
     </div>
-    <div class="container" step="4">
+    <div class="container" step="5">
         <div class="gb-row">
             <label for="wowServer">What server are you on?</label>
                 <select id="wowServer" name="wowServer">
@@ -63,7 +79,7 @@
                         @endforeach
                     </optgroup>
                 </select>        </div>
-        <button onclick="goTo(3);">Back</button>
+        <button onclick="goTo(4);">Back</button>
         <button onclick="finish();">Finish</button>
     </div>
 </section>
@@ -83,7 +99,8 @@
         var wowServer = $('#wowServer').val();
         var setup = $('#setup').val();
         var raidCategory = $('#raidCategory').val();
-        window.location = '/dashboard/setup/save/{{ $server->id }}?server=' + wowServer + '&setup=' + setup + '&raidCategory=' + raidCategory;
+        var expansion = $('#expansion').val();
+        window.location = '/dashboard/setup/save/{{ $server->id }}?server=' + wowServer + '&setup=' + setup + '&raidCategory=' + raidCategory + '&expansion=' + expansion;
     }
     </script>
 @endsection

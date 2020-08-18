@@ -16,21 +16,8 @@ class DashboardController extends Controller
     }
 
     public function dashboard($serverID) {
-        $servers = session()->get('guilds');
-        $currentServer = null;
-        foreach ($servers AS $server) {
-            if ($server->id == $serverID) {
-                $currentServer = $server;
-            }
-        }
-        if (empty($currentServer)) {
-            abort(404);
-        }
-
-        if ($currentServer->permissions != 2147483647) {
-            abort(403);
-        }
-
+        $currentServer = $this->getServer($serverID);
+        $this->goodBotInstalled($serverID);        
         return view('dashboard.dashboard')
             ->with('server', $currentServer);
     }
@@ -100,6 +87,9 @@ class DashboardController extends Controller
     public function setup($serverID) {
         $server = $this->getServer($serverID);
         $channels = $this->botRequest('/guilds/' . $serverID . '/channels');
+        if (is_object($channels)) {
+            abort('404');
+        }
         $euServerList = ["Amnennar", "Ashbringer", "Auberdine", "Bloodfang", "Celebras", "Chromie", "Dragon's Call", "Dragonfang", "Dreadmist", "Earthshaker", "Everlook", "Finkle", "Firemaw", "Flamegor", "Flamelash", "Gandling", "Gehennas", "Golemagg", "Harbinger of Doom", "Heartstriker", "Hydraxian Waterlords", "Judgement", "Lakeshire", "Lucifron", "Mandokir", "Mirage Raceway", "Mograine", "Nethergarde Keep", "Noggenfogger", "Patchwerk", "Pyrewood Village", "Razorfen", "Razorgore", "Rhok'delar", "Shazzrah", "Skullflame", "Stonespine", "Sulfuron", "Ten Storms", "Transcendence", "Venoxis", "Wyrmthalak", "Zandalar Tribe"];
         $naServerList = ["Anathema", "Arcanite Reaper", "Arugal", "Ashkandi", "Atiesh", "Azuresong", "Benediction", "Bigglesworth", "Blaumeux", "Bloodsail Buccaneers", "Deviate Delight", "Earthfury", "Faerlina", "Fairbanks", "Felstriker", "Grobbulus", "Heartseeker", "Herod", "Incendius", "Kirtonos", "Kromcrush", "Kurinnaxx", "Loatheb", "Mankrik", "Myzrael", "Netherwind", "Old Blanchy", "Pagle", "Rattlegore", "Remulos", "Skeram", "Smolderweb", "Stalagg", "Sul'thraze", "Sulfuras", "Thalnos", "Thunderfury", "Westfall", "Whitemane", "Windseeker", "Yojamba"];
 
@@ -113,20 +103,17 @@ class DashboardController extends Controller
     public function setupSave($serverID) {
         $server = $this->getServer($serverID);
         $channels = $this->botRequest('/guilds/' . $serverID . '/channels');
-        if (request()->query('setup') == 'Yes') {
-            foreach ($channels AS $channel) {
-                if ($channel->type == 0) {
-                    $text = $this->botRequest('/channels/' . $channel->id . '/messages', ['content' => '+setup']);
-                    break;
-                }
-            }
-        }
+
         $settings = [];
         if (request()->query('server')) {
             $server = request()->query('server');
             $serverParts = explode('/', $server);
             $settings['server'] = $serverParts[1];
             $settings['region'] = $serverParts[0];
+        }
+
+        if (request()->query('expansion')) {
+            $settings['expansion'] = request()->query('expansion');
         }
 
         if (request()->query('faction')) {
@@ -153,7 +140,29 @@ class DashboardController extends Controller
             );
         }
 
+        if (request()->query('setup') == 'Yes') {
+            foreach ($channels AS $channel) {
+                if ($channel->type == 0) {
+                    $text = $this->botRequest('/channels/' . $channel->id . '/messages', ['content' => '+setup']);
+                    break;
+                }
+            }
+        }
+
         return redirect()->route('dashboard', [$serverID]);
+    }
+
+    public function install($serverID) {
+        $currentServer = $this->getServer($serverID);
+        return view('dashboard.install')
+            ->with('server', $currentServer);
+    }
+
+    public function goodBotInstalled($serverID) {
+        $channels = $this->botRequest('/guilds/' . $serverID . '/channels');
+        if (!is_array($channels)) {
+            abort(redirect('/dashboard/install/' . $serverID));
+        }
     }
 
     public function getServer($serverID) {
