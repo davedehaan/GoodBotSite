@@ -96,7 +96,12 @@
 					background: #772200;
 					color: #CCC;
                 } 
-
+				.col-12-narrower a {
+					color: #EEE;
+				}
+				.gb-row label {
+					color: #EEE;
+				}
 			</style>
 		@endif
 	</head>
