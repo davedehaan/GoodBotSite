@@ -14,12 +14,16 @@
 								<div class="col-8 col-12-narrower">
 
 									<header>
-										<h2>Manage Your Raid Roster</h2>
+										<h2>Manage Your Guild</h2>
 									</header>
                                     <p>
                                         Quickly and easily ping players who have signed up for your raid previously without notifying an entire server.<br />
                                         Export your raid roster to a spreadsheet for easy raid assignments.<br />
-                                        See sign-ups based on class & spec, using the player's actual in-game character name.
+										See sign-ups based on class & spec, using the player's actual in-game character name.<br />
+										Check your raider's enchants.<br />
+										Set up confirmations for your raid to let players know what to plan on.<br />
+										Track your raid's resistances.<br />
+										<i>And so much more.</i>
                                     </p>
 									<!-- <footer>
 										<ul class="buttons">
@@ -72,6 +76,42 @@
 									</section>
 
 								</div>
+
+								<div class="col-4 col-12-narrower">
+
+									<section>
+										<span class="icon solid featured fa-check"></span>
+										<header>
+											<h3>Open Source</h3>
+										</header>
+										<p>The bot's repository is public, so you can see how things are being done, and contribute if you'd like!</p>
+									</section>
+
+								</div>
+
+								<div class="col-4 col-12-narrower">
+
+									<section>
+										<span class="icon solid featured fa-check"></span>
+										<header>
+											<h3>Widely Used</h3>
+										</header>
+										<p>GoodBot is used by hundreds of Classic WoW guilds already.</p>
+									</section>
+
+								</div>
+								<div class="col-4 col-12-narrower">
+
+									<section>
+										<span class="icon solid featured fa-check"></span>
+										<header>
+											<h3>Great Support</h3>
+										</header>
+										<p>The <a href="http://discord.setback.me">development discord</a> has multiple developers and experienced users who can help you work through whatever issue you're having.</p>
+									</section>
+
+								</div>
+
 							</div>
 						</section>
 
