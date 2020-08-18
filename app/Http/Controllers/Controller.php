@@ -41,7 +41,7 @@ class Controller extends BaseController
         }
     }
 
-    public function getServer($serverID) {
+    public function getServer($serverID, $adminCheck = true) {
         $servers = session()->get('guilds');
         $currentServer = null;
         foreach ($servers AS $server) {
@@ -53,7 +53,7 @@ class Controller extends BaseController
             abort(404);
         }
 
-        if ($currentServer->permissions != 2147483647) {
+        if ($adminCheck && $currentServer->permissions != 2147483647) {
             abort(403);
         }
 

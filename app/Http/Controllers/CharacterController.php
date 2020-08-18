@@ -16,7 +16,7 @@ class CharacterController extends Controller
 
     public function server($serverID)
     {
-        $currentServer = $this->getServer($serverID);
+        $currentServer = $this->getServer($serverID, false);
         $this->goodBotInstalled($serverID);
         $characters = [];
         $classes = [
