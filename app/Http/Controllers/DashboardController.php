@@ -158,29 +158,4 @@ class DashboardController extends Controller
             ->with('server', $currentServer);
     }
 
-    public function goodBotInstalled($serverID) {
-        $channels = $this->botRequest('/guilds/' . $serverID . '/channels');
-        if (!is_array($channels)) {
-            abort(redirect('/dashboard/install/' . $serverID));
-        }
-    }
-
-    public function getServer($serverID) {
-        $servers = session()->get('guilds');
-        $currentServer = null;
-        foreach ($servers AS $server) {
-            if ($server->id == $serverID) {
-                $currentServer = $server;
-            }
-        }
-        if (empty($currentServer)) {
-            abort(404);
-        }
-
-        if ($currentServer->permissions != 2147483647) {
-            abort(403);
-        }
-
-        return $currentServer;
-    }
 }
