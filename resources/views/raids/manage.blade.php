@@ -60,7 +60,7 @@
             </div>
             <div class="gb-row">
                 <label for="softreserve">Soft Reserves</label>
-                <select name="softReserve">
+                <select name="softreserve">
                     <option value="0">no</option>
                     <option value="1"
                     @if ($raid->softreserve) selected @endif
