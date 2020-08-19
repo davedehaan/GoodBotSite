@@ -83,6 +83,6 @@ class GoodBotController extends Controller
             ['signupID' => $signupID, 'raidID' => $signup->raidID],
             ['reserveItemID' => $itemID]
         );
-        return redirect()->route('reserves', ['id' => $signup->raidID]);
+        return back();
     }
 }

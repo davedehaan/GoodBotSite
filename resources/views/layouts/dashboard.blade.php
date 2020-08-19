@@ -56,8 +56,20 @@
 					font-weight: bold;
 				}
 				select, input {
-					width: 50%;
+					width: 100%;
 					height: 30px;
+					color: #000;
+					border: solid 1px #ccc;
+				}
+				textarea {
+					width: 100%;
+					background: #fff;
+					border: solid 1px #ccc;
+					color: #000;
+				}
+				a button {
+					color: #FFF;
+					border: solid 1px #FFF;
 				}
 				button {
 					margin: 30px 0 10px;
@@ -121,7 +133,8 @@
                                 <li class="submenu">
                                     <a href="#" class="">Welcome, {{ session()->get('user')->username }}</a>
                                     <ul>
-									<li><a href="/dashboard">Dashboard</a></li>
+									<li><a href="/raids">Servers</a></li>
+									<li><a href="/raids">Raids</a></li>
 									<li><a href="/characters">Characters</a></li>
 									<li>
 										@if (!session()->get('darkmode'))
@@ -150,10 +163,8 @@
 			<!-- Main -->
 				<article id="main">
                 <header class="special container">
-                    <a href="/dashboard/{{ $server->id }}">
-                        <img style="border-radius: 64px;" src="https://cdn.discordapp.com/icons/{{ $server->id }}/{{ $server->icon }}.png" />
-                        <h2>{{ $server->name }}</h2>
-                    </a>
+					<img style="border-radius: 64px;" src="https://cdn.discordapp.com/icons/{{ $server->id }}/{{ $server->icon }}.png" />
+					<h2>{{ $server->name }}</h2>
                 </header>
 				@yield('content')
 

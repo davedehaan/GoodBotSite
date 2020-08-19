@@ -74,7 +74,8 @@
                                 <li class="submenu">
                                     <a href="#" class="">Welcome, {{ session()->get('user')->username }}</a>
                                     <ul>
-									<li><a href="/dashboard">Dashboard</a></li>
+									<li><a href="/dashboard">Servers</a></li>
+									<li><a href="/raids">Raids</a></li>
 									<li><a href="/characters">Characters</a></li>
 									<li>
 										@if (!session()->get('darkmode'))

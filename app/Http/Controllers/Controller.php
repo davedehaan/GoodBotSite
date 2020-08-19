@@ -26,12 +26,25 @@ class Controller extends BaseController
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post));
         } else if (!empty($post)) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post));
         }        
   
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);      
         $response = curl_exec($ch);
         return json_decode($response);
+    }
+
+    public function sendMessage($serverID = 0, $channelID = 0, $message) {
+        if ($serverID) {
+            $channels = $this->botRequest('/guilds/' . $serverID . '/channels');
+            foreach ($channels AS $channel) {
+                if ($channel->type == 0) {
+                    $channelID = $channel->id;
+                    break;
+                }
+            }
+        }
+        $text = $this->botRequest('/channels/' . $channelID . '/messages', ['content' => $message]);
     }
 
     public function goodBotInstalled($serverID) {

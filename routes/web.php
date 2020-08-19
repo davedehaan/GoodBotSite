@@ -49,11 +49,24 @@ Route::group(['middleware' => ['oauth']], function() {
     });
 
     Route::get('/OAuth', 'GoodBotController@OAuth')->name('OAuth');
+    // Characters 
     Route::get('/characters', 'CharacterController@index')->name('character.servers');
     Route::get('/characters/{serverID}', 'CharacterController@server')->name('character.list');
     Route::get('/characters/save/{serverID}/{characterID}', 'CharacterController@save')->name('character.save');
+
+    // Signups
     Route::get('/s/{id}', 'GoodBotController@signups')->name('s');
     Route::get('/signups/{id}', 'GoodBotController@signups')->name('signups');
+    
+    // Raids
+    Route::get('/raids', 'RaidController@index')->name('raids');
+    Route::get('/raids/{id}/reserves', 'RaidController@reserves')->name('raids.reserves');
+    Route::get('/raids/{id}/lineup', 'RaidController@lineup')->name('raids.lineup');
+    Route::get('/raids/{id}/manage', 'RaidController@manage')->name('raids.manage');
+    Route::post('/raids/{id}/manage', 'RaidController@postManage')->name('raids.manage.post');
+    Route::get('/raids/{id}/command/{type}', 'RaidController@command')->name('raids.command');
+
+    // Reserves
     Route::get('/r/{id}', 'GoodBotController@reserves')->name('r');
     Route::get('/reserves/{id}', 'GoodBotController@reserves')->name('reserves');
     Route::get('/reserve/{signupID}/{itemID}', 'GoodBotController@reserve');

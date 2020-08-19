@@ -141,12 +141,7 @@ class DashboardController extends Controller
         }
 
         if (request()->query('setup') == 'Yes') {
-            foreach ($channels AS $channel) {
-                if ($channel->type == 0) {
-                    $text = $this->botRequest('/channels/' . $channel->id . '/messages', ['content' => '+setup']);
-                    break;
-                }
-            }
+            $this->sendMessage($serverID, 0, '+setup');
         }
 
         return redirect()->route('dashboard', [$serverID]);
