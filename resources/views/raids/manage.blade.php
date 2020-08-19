@@ -39,7 +39,7 @@
             </div>
             <div class="gb-row">
                 <label for="date">Date</label>
-                <input name="date" value="{{ $raid->description }}" />
+                <input name="date" value="{{ $raid->date }}" />
             </div>
             <div class="gb-row">
                 <label for="description">Description</label>
@@ -79,4 +79,7 @@
 
 @section('scripts')
 
+<script>
+    $('[name=date]').datepicker();
+</script>
 @endsection

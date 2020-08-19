@@ -83,7 +83,7 @@ class RaidController extends Controller
             ->update([
                 'raid' => $request->raid,
                 'title' => $request->title,
-                'date' => $request->date,
+                'date' => date('Y-m-d', strtotime($request->date)),
                 'description' => $request->description,
                 'confirmation' => $request->confirmation,
                 'softreserve' => $request->softreserve
