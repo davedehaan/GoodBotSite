@@ -62,6 +62,8 @@ Route::group(['middleware' => ['oauth']], function() {
     Route::get('/raids', 'RaidController@index')->name('raids');
     Route::get('/raids/{id}/reserves', 'RaidController@reserves')->name('raids.reserves');
     Route::get('/raids/{id}/lineup', 'RaidController@lineup')->name('raids.lineup');
+    Route::get('/raids/{id}/confirm/{signupID}', 'RaidController@confirm')->name('raids.confirm');
+    Route::get('/raids/{id}/unconfirm/{signupID}', 'RaidController@unconfirm')->name('raids.unconfirm');
     Route::get('/raids/{id}/manage', 'RaidController@manage')->name('raids.manage');
     Route::post('/raids/{id}/manage', 'RaidController@postManage')->name('raids.manage.post');
     Route::get('/raids/{id}/command/{type}', 'RaidController@command')->name('raids.command');

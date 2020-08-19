@@ -94,6 +94,18 @@ class RaidController extends Controller
         return back();
     }
 
+    public function confirm($raidID, $signupID) {
+        $raid = $this->getRaid($raidID);
+        Signup::where('id', $signupID)
+            ->update(['confirmed' => 1]);
+    }
+
+    public function unconfirm($raidID, $signupID) {
+        $raid = $this->getRaid($raidID);
+        Signup::where('id', $signupID)
+            ->update(['confirmed' => 0]);
+    }
+
     public function command($raidID, $type) {
         $raid = $this->getRaid($raidID);
         if ($type == 'pingall') {
