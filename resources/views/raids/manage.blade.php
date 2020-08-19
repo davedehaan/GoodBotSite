@@ -63,7 +63,7 @@
                 <select name="softReserve">
                     <option value="0">no</option>
                     <option value="1"
-                    @if ($raid->confirmation) selected @endif
+                    @if ($raid->softreserve) selected @endif
                     >yes</option>
                 </select>
             </div>
