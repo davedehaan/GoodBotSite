@@ -28,7 +28,7 @@
                         @if ($signup->reserve)
                             <a href="https://classic.wowhead.com/item/{{ $signup->reserve->item->itemID }}" id="reserve-link-{{ $signup->id }}">{{ $signup->reserve->item->name }}</a>
                         @else
-                            <a id="reserve-link-{{ $signup->id }}">none</a>
+                            <a id="reserve-link-{{ $signup->id }}">-</a>
                         @endif
                         <select class="reserve-select" id="reserve-select-{{ $signup->id }}" onchange="saveReserve(this.value, {{ $signup->id }});">
                             <option value="0">None</option>
