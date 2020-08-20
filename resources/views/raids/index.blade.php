@@ -6,6 +6,9 @@
     <h2>Raids</h2>
 </header>
 <section class="wrapper style2 container special-alt">
+    <a href="/raids/new">    
+        <button>Create Raid</button>
+    </a>
     <div class="container">
         <table>
             <tr>

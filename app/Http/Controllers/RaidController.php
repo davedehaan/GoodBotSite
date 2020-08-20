@@ -31,9 +31,18 @@ class RaidController extends Controller
         $raid = $this->getRaid($raidID);
         $signups = Signup::where('raidID', $raidID)->get();
         $characters = $this->getCharacters($signups, $raid->guildID);
+        $crosspostChararacters = $this->getCharacters($signups, $raid->crosspostID);
         foreach ($signups AS $signup) {
-            $signup->role = array_key_exists($signup->player, $characters) ? $characters[$signup->player]->role : 'unknown';
-            $signup->class = array_key_exists($signup->player, $characters) ? $characters[$signup->player]->class : 'unknown';
+            if (array_key_exists($signup->player, $characters)) {
+                $signup->role = $characters[$signup->player]->role;
+                $signup->class = $characters[$signup->player]->class;
+            } else if (array_key_exists($signup->player, $crosspostChararacters)) {    
+                $signup->role = $crosspostChararacters[$signup->player]->role;
+                $signup->class = $crosspostChararacters[$signup->player]->class;
+            } else {
+                $signup->role = 'unknown';
+                $signup->class = 'unknown';
+            }
         }
         return view('raids.lineup')
             ->with('raid', $raid)
@@ -104,6 +113,12 @@ class RaidController extends Controller
         $raid = $this->getRaid($raidID);
         Signup::where('id', $signupID)
             ->update(['confirmed' => 0]);
+    }
+
+    public function new() {
+        $guilds = request()->get('guilds');
+        return view('raids.new')
+            ->with('guilds');
     }
 
     public function command($raidID, $type) {

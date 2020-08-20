@@ -67,6 +67,7 @@ Route::group(['middleware' => ['oauth']], function() {
     Route::get('/raids/{id}/manage', 'RaidController@manage')->name('raids.manage');
     Route::post('/raids/{id}/manage', 'RaidController@postManage')->name('raids.manage.post');
     Route::get('/raids/{id}/command/{type}', 'RaidController@command')->name('raids.command');
+    Route::get('/raids/new', 'RaidController@new')->name('raids.new');
 
     // Reserves
     Route::get('/r/{id}', 'GoodBotController@reserves')->name('r');
