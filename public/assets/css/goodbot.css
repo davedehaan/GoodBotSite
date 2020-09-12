@@ -1,0 +1,64 @@
+body.index #main {
+    padding-top: 3em;
+}
+header.special {
+    padding-top: 0;
+}
+                
+a {
+    color: #333;
+    border-bottom: none;
+}
+a img {
+    border: none;
+}
+td a {
+    color: #CCC;
+}
+.row h3 {
+    margin: 0;
+}
+.icon.featured {
+    cursor: pointer;
+}
+a:hover {
+    color: #CCC;
+}
+label {
+    display: block;
+    width: 100%
+    clear: both;
+    margin: 10px 0;
+    border-bottom: solid 1px #CCC;
+    color: #333;
+    font-weight: bold;
+}
+select, input {
+    width: 100%;
+    height: 30px;
+    color: #000;
+    border: solid 1px #ccc;
+}
+textarea {
+    width: 100%;
+    background: #fff;
+    border: solid 1px #ccc;
+    color: #000;
+}
+a button {
+    color: #FFF;
+    border: solid 1px #FFF;
+}
+button {
+    margin: 30px 0 10px;
+}
+input.error, select.error, textarea.error {
+    background: rgba(255, 150, 150, .7);
+}
+label.error {
+    font-weight: normal;
+    font-size: 12px;
+    border: none;
+    padding: 0;
+    margin: 0;
+}

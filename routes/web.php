@@ -37,7 +37,7 @@ Route::get('/logout', 'UserController@logout')->name('logout');
 // Player Routes
 Route::group(['middleware' => ['oauth']], function() {
     // Dashboard Routes
-    Route::group(['middlware' => 'admin'], function() {
+    Route::group(['middleware' => 'admin'], function() {
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
         Route::get('/dashboard/{id}', 'DashboardController@dashboard')->name('dashboard');
         Route::get('/dashboard/logs/{id}', 'DashboardController@logs')->name('logs');
@@ -65,14 +65,15 @@ Route::group(['middleware' => ['oauth']], function() {
     Route::get('/raids/{id}/confirm/{signupID}', 'RaidController@confirm')->name('raids.confirm');
     Route::get('/raids/{id}/unconfirm/{signupID}', 'RaidController@unconfirm')->name('raids.unconfirm');
     Route::get('/raids/{id}/manage', 'RaidController@manage')->name('raids.manage');
-    Route::post('/raids/{id}/manage', 'RaidController@postManage')->name('raids.manage.post');
+    Route::post('/raids/save/{id?}', 'RaidController@postSave')->name('raids.save.post');
     Route::get('/raids/{id}/command/{type}', 'RaidController@command')->name('raids.command');
-    Route::get('/raids/new', 'RaidController@new')->name('raids.new');
+    Route::get('/raids/new/{id?}', 'RaidController@new')->name('raids.new');
 
     // Reserves
     Route::get('/r/{id}', 'GoodBotController@reserves')->name('r');
     Route::get('/reserves/{id}', 'GoodBotController@reserves')->name('reserves');
     Route::get('/reserve/{signupID}/{itemID}', 'GoodBotController@reserve');
     Route::get('{raid}', 'GoodBotController@index');
+
 });
 

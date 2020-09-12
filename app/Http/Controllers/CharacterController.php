@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Character;
+use App\Setting;
 
 class CharacterController extends Controller
 {
@@ -17,6 +18,7 @@ class CharacterController extends Controller
     public function server($serverID)
     {
         $currentServer = $this->getServer($serverID, false);
+        $settings = Setting::where('guildID', $serverID)->first();
         $this->goodBotInstalled($serverID);
         $characters = [];
         $classes = [
@@ -39,7 +41,8 @@ class CharacterController extends Controller
         ->with('server', $currentServer)
         ->with('characters', $characters)
         ->with('classes', $classes)
-        ->with('roles', $roles);
+        ->with('roles', $roles)
+        ->with('settings', $settings);
     }
 
     public function save($serverID, $characterID) {

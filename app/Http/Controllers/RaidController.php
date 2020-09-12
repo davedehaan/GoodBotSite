@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Raid;
+use App\RaidCategory;
 use App\ReserveItem;
 use App\Signup;
 use App\Character;
+use App\Setting;
 
 class RaidController extends Controller
 {
@@ -64,43 +66,47 @@ class RaidController extends Controller
         $raid = $this->getRaid($raidID);
         $channel = $this->botRequest('/channels/' . $raid->channelID);
         $server = $this->getServer($raid->guildID, false);
-
-        $raids = [
-            'Classic' => ['mc' => 'Molten Core', 'ony' => 'Onyxia', 'bwl' => 'Blackwing Lair', 'zg' => 'Zul\'Gurub', 'aq40' => 'Temple of Ahn\'Qiraj', 'aq20' => 'Ruins of Ahn\'Qiraj', 'naxx' => 'Naxxramas'],
-            'Burning Crusade' => ['kara' => 'Karazhan', 'gl' => 'Gruul\'s Lair', 'ssc' => 'Serpentshrine Cavern', 'tk' => 'Tempest Keep', 'bt' => 'Black Temple', 'sw' => 'Sunwell']
-        ];
+        $raids = $this->getRaids();
+        $settings = Setting::where('guildID', $server->id)->first();
+        if (empty($settings)) {
+            $settings = new Setting;
+        }
 
         return view('raids.manage')
         ->with('server', $server)
         ->with('channel', $channel)
         ->with('raid', $raid)
-        ->with('raids', $raids);
+        ->with('raids', $raids)
+        ->with('settings', $settings);
     }
 
-    public function postManage(Request $request, $raidID) {
-        $raid = $this->getRaid($raidID);
-        $server = $this->getServer($raid->guildID, false);
+    public function postSave(Request $request) {
+        // Populate our save array
+        $user = session()->get('user');
+        $raidID = $request->raidID;
+        $saveData = [
+            'raid' => $request->raid,
+            'channel' => $request->channel,
+            'name' => $request->title,
+            'title' => $request->title,
+            'date' => date('Y-m-d', strtotime($request->date)),
+            'time' => $request->time,
+            'description' => $request->description,
+            'confirmation' => $request->confirmation,
+            'softreserve' => $request->softreserve,
+            'color' => $request->color ?: '#FF9900',
+            'memberID' => $user->id,
+            'id' => $raidID,
+            'guildID' => $request->guildID,
+            'faction' => $request->faction
+        ];
 
-        $channel = $this->botRequest('/channels/' . $raid->channelID);
-        if ($channel->name != $request->channel) {
-            $result = $this->botRequest('/channels/' . $raid->channelID, ['name' => $request->channel], true);
-            print_r($result);
-            exit;
+        $raid = new Raid();
+        if ($raidID) {
+            return $raid->updateRaid($raidID, $saveData);
+        } else {
+            return $raid->createRaid($saveData);
         }
-
-        Raid::where('id', $raidID)
-            ->update([
-                'raid' => $request->raid,
-                'title' => $request->title,
-                'date' => date('Y-m-d', strtotime($request->date)),
-                'description' => $request->description,
-                'confirmation' => $request->confirmation,
-                'softreserve' => $request->softreserve
-            ]);
-
-        // Refresh our embed
-        $this->sendMessage(0, $raid->channelID, '+embed refresh');
-        return back();
     }
 
     public function confirm($raidID, $signupID) {
@@ -115,10 +121,24 @@ class RaidController extends Controller
             ->update(['confirmed' => 0]);
     }
 
-    public function new() {
-        $guilds = request()->get('guilds');
+    public function new($serverID = 0) {
+        $servers = $serverID ? [] : session()->get('guilds');
+        $guilds = [];
+        foreach ($servers AS $guild) {
+            $guilds[$guild->id] = $guild;
+        }
+        $settings = Setting::where('guildID', $serverID)->first();
+        if (empty($settings)) {
+            $settings = new Setting;
+        }
+        $server = $serverID ? $this->getServer($serverID) : null;;
         return view('raids.new')
-            ->with('guilds');
+            ->with('raid', New Raid())
+            ->with('raids', $this->getRaids())
+            ->with('channel', null)
+            ->with('server', $server)
+            ->with('guilds', $guilds)
+            ->with('settings', $settings);
     }
 
     public function command($raidID, $type) {
@@ -134,6 +154,12 @@ class RaidController extends Controller
         }
         if ($type == 'pingunsigned') {
             $this->sendMessage(0, $raid->channelID, '+unsigned');
+        }
+        if ($type == 'dupe') {
+            $this->sendMessage(0, $raid->channelID, '+dupe');
+        }
+        if ($type == 'archive') {
+            $this->sendMessage(0, $raid->channelID, '+archive');
         }
 
         return back();
@@ -164,6 +190,30 @@ class RaidController extends Controller
         }
         
         return $characterList;
+    }
+
+    public function userRoles($user, $guildID) {
+        $guildMember = $this->botRequest('/guilds/' . $guildID . '/members/' . $user->id);
+        $roles = $this->botRequest('/guilds/' . $guildID . '/roles');
+        $roleArray = [];
+        foreach ($roles AS $role) {
+            $roleArray[$role->id] = $role;
+        }
+        $userRoles = [];
+        foreach ($guildMember->roles AS $role) {
+            $userRoles[$role] = $roleArray[$role];
+        }
+        return $userRoles;
+    }
+
+
+
+    public function getRaids() {
+        $raids = [
+            'Classic' => ['mc' => 'Molten Core', 'ony' => 'Onyxia', 'bwl' => 'Blackwing Lair', 'zg' => 'Zul\'Gurub', 'aq40' => 'Temple of Ahn\'Qiraj', 'aq20' => 'Ruins of Ahn\'Qiraj', 'naxx' => 'Naxxramas'],
+            'Burning Crusade' => ['kara' => 'Karazhan', 'gl' => 'Gruul\'s Lair', 'ssc' => 'Serpentshrine Cavern', 'tk' => 'Tempest Keep', 'bt' => 'Black Temple', 'sw' => 'Sunwell']
+        ];
+        return $raids;
     }
 
 }

@@ -65,6 +65,13 @@
                                 @endif
                                 value="{{ $class }}">{{ $class }}</option>
                             @endforeach
+                            @if ($settings->expansion == 'wotlk')
+                                <option 
+                                    @if ($character->class == 'dk')
+                                        selected
+                                    @endif
+                                value="dk">Death Knight</option>
+                            @endif
                         </select>
                     </td>
                     <td>
@@ -105,6 +112,13 @@
                         @foreach ($roles AS $role)
                             <option value="{{ $role }}">{{ $role }}</option>
                         @endforeach
+                        @if ($settings->expansion == 'wotlk')
+                            <option 
+                                @if ($character->class == 'dk')
+                                    selected
+                                @endif
+                            value="dk">Death Knight</option>
+                        @endif
                     </select>
                 </td>
                 <td>

@@ -1,15 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('content')
-<header class="special container">
-    <span class="icon solid fa-running"></span>
-    <h2>Raids</h2>
-</header>
 <section class="wrapper style2 container special-alt">
-    <!-- <a href="/raids/new">    
-        <button>Create Raid</button>
-    </a> -->
     <div class="container">
+        <h2>Manage Raids</h2>
         <table>
             <tr>
                 <th>Discord</th>
@@ -32,6 +26,9 @@
             @endforeach
             </tr>
         </table>
+        <a href="/raids/new">
+            <button>Create Raid</button>
+        </a>
     </div>
 </section>
 

@@ -2,58 +2,82 @@
 
 namespace App\Http\Middleware;
 
+use Illuminate\Support\Facades\Cookie;
 use Closure;
 
 class OAuth
 {
+  // API URLs
+  private $authorizeURL   = 'https://discord.com/api/oauth2/authorize';
+  private $tokenURL       = 'https://discord.com/api/oauth2/token';
+  private $apiURLBase     = 'https://discord.com/api/users/@me';
+
     /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
+     * 
      * @return mixed
      */
     public function handle($request, Closure $next)
     {   
-        $authorizeURL   = 'https://discord.com/api/oauth2/authorize';
-        $tokenURL       = 'https://discord.com/api/oauth2/token';
-        $apiURLBase     = 'https://discord.com/api/users/@me';
 
         if ($request->query('code')) {
             session(['code' => $request->query('code')]);
-            $token = $this->apiRequest($tokenURL, [
-                "grant_type" => "authorization_code",
-                'client_id' => env('OAUTH2_CLIENT_ID'),
-                'client_secret' => env('OAUTH2_CLIENT_SECRET'),
-                'redirect_uri' => env('OAUTH2_REDIRECT_URL'),
-                'code' => session()->get('code')
-            ]);
-            session(['token' => $token->access_token]);
-            $user = $this->apiRequest($apiURLBase);
-            session(['user' => $user]);
-            $guilds = $this->apiRequest($apiURLBase . '/guilds');
-            usort($guilds, function($a, $b) { return $a->name <=> $b->name; });
-            session(['guilds' => $guilds]);
-            $state = $request->query('state') ? $request->query('state') : '/';
-            $state = str_replace('%2F', '/', $state);
-            return redirect($state);
         }
 
         if (!session()->get('user')) {
-            $params = [
-                'client_id' => env('OAUTH2_CLIENT_ID'),
-                'redirect_uri' => env('OAUTH2_REDIRECT_URL'),
-                'response_type' => 'code',
-                'scope' => 'identify guilds',
-                'state' => $request->path()
-              ];
-            
-              $authorizeURL . '?' . http_build_query($params);
-              return redirect($authorizeURL . '?' . http_build_query($params));
+          if (session()->get('code')) {
+            // Retrieve our access token
+            $token = $this->getToken(session()->get('code'));
+            if (!property_exists($token, 'access_token')) {
+              return $this->getAuthorization($request);
+            }
+            session(['token' => $token->access_token]);
+
+            // Retrieve user information
+            $user = $this->apiRequest($this->apiURLBase);
+            session(['user' => $user]);
+
+            // Retrieve guild information
+            $guilds = $this->apiRequest($this->apiURLBase . '/guilds');
+            usort($guilds, function($a, $b) { return $a->name <=> $b->name; });
+            session(['guilds' => $guilds]);
+          } else {
+            return $this->getAuthorization($request);
+          }
+
         }
         return $next($request);
     }
 
+    // Redirect the user to the auth URL
+    function getAuthorization($request) {
+      $params = [
+        'client_id' => env('OAUTH2_CLIENT_ID'),
+        'redirect_uri' => env('OAUTH2_REDIRECT_URL'),
+        'response_type' => 'code',
+        'scope' => 'identify guilds',
+        'state' => $request->path()
+      ];
+    
+      return redirect($this->authorizeURL . '?' . http_build_query($params));
+    }
+
+    // Get our token using the auth code
+    function getToken($code) {
+      $token = $this->apiRequest($this->tokenURL, [
+        "grant_type" => "authorization_code",
+        'client_id' => env('OAUTH2_CLIENT_ID'),
+        'client_secret' => env('OAUTH2_CLIENT_SECRET'),
+        'redirect_uri' => env('OAUTH2_REDIRECT_URL'),
+        'code' => session()->get('code')
+      ]);
+      return $token;
+    }
+
+    // Make an API request
     function apiRequest($url, $post = FALSE, $headers = []) {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);

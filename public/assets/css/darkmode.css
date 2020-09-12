@@ -1,0 +1,47 @@
+body {
+    background: #333;
+}
+.wrapper.style2, .wrapper.style3 {
+    background: #772200;
+}
+#header, #footer {
+    background: #772200;
+    color: #CCC;
+}
+h1#logo {
+    color: #CCC;
+}
+table th {
+    color: #CCC;
+}
+h2 {
+    color: #CCC;
+}
+#main section {
+    color: #CCC;
+}
+.button.primary {
+    background: #CC9900;
+    border: solid 1px #CCC;
+}
+.dropotron {
+    background: #772200;
+    color: #CCC;
+} 
+.col-12-narrower a {
+    color: #EEE;
+}
+.gb-row label {
+    color: #EEE;
+}
+a {
+    color: #CC9900;
+}
+a button {
+    color: #FFF;
+    border: solid 1px #FFF;
+}
+a button:hover {
+    color: #CC9900;
+    border: solid 1px #CC9900;
+}
