@@ -89,7 +89,6 @@ class Raid extends BaseModel
         $discordCategory = null;
         foreach ($channels AS $channel) {
             if ($channel->name == $category) {
-                echo $channel->name;
                 $discordCategory = $channel;
             }
         }

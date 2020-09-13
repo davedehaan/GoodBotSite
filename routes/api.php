@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use App\Raid;
 use App\Signup;
+use App\Character;
 use App\Http\Resources\Signup AS SignupResource;
 use App\Http\Resources\Raid AS RaidResource;
 use App\Http\Resources\RaidFull AS RaidFullResource;
@@ -61,6 +62,38 @@ Route::middleware(['api'])->group(function() {
             ->with(['raid', 'reserve', 'reserve.item'])
             ->get();
         return SignupResource::collection($signups);
+    });
+
+    Route::get('/signup', function(Request $request) {
+        $parameters = [
+            'raidID'        => $request->get('raidID'),
+            'characterID'   => $request->get('characterID'),
+            'signup'        => $request->get('signup')
+        ];
+        foreach ($parameters AS $key => $value) {
+            if (empty($value)) {
+                return ['error' => $key . ' is a required parameter.'];
+            }
+        }
+        $raid       = Raid::findOrFail($parameters['raidID']);
+        $character  = Character::findOrFail($parameters['characterID']);
+        $signup     = Signup::updateOrCreate(
+            [
+                'raidID' => $parameters['raidID'], 
+                'player' => $character->name,
+            ],
+            [
+                'signup' => $parameters['signup'],
+                'channelID' => $raid->channelID,
+                'guildID' => $raid->guildID,
+                'memberID' => $request->id
+            ]);
+        
+            // Create the embed
+        $signup->sendMessage(0, $raid->channelID, '+embed refresh');
+
+        return ['success' => $signup];
+
     });
   
 });

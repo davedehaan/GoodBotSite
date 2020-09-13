@@ -2,12 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\BaseModel;
 
-class Signup extends Model
+class Signup extends BaseModel
 {
     protected $table = 'signups';
-    protected $fillable = ['name', 'confirmed'];
+    protected $fillable = ['name', 'confirmed', 'raidID', 'signup', 'player', 'channelID', 'guildID', 'memberID'];
 
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'updatedAt';
