@@ -37,7 +37,7 @@ Route::middleware(['api'])->group(function() {
         // if MainID is set, this is not the main.
         if ($main->mainID) {
             // Retrieve the main
-            $main = Character::where(['id' => $mainID, 'guildID' => $guildID])->first();
+            $main = Character::where(['id' => $main->id, 'guildID' => $guildID])->first();
         }
         $main->isMain = true;
         $main->getSignups();
