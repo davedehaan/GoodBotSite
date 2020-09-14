@@ -1,14 +1,14 @@
-### GoodBot Site
+# GoodBot Site
 
 ## API Documentation - Endpoints
 
-# /api/info/{character}
+### /api/info/{character}
 Parameters:
 * guildID
 Provides a list of the player's set up alts, and their upcoming raid sign-ups.
 
 
-# /api/signup
+### /api/signup
 Parameters:
 * raidID
 * characterID
@@ -16,13 +16,13 @@ Parameters:
 Signs the specified character up for the specified raid.
 
 
-# /api/raids
+### /api/raids
 Parameters:
 * guildID
 Returns all upcoming raids on a server in the next 3 months
 
 
-# /api/raid/{raidID}
+### /api/raid/{raidID}
 Parameters:
 * none
 Returns more detailed information (including reserves) for the specified raid ID.
