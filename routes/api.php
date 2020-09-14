@@ -21,12 +21,47 @@ use App\Http\Resources\RaidFull AS RaidFullResource;
 */
 
 Route::middleware(['api'])->group(function() {
+
+    Route::get('/info/{character}', function(Request $request, $character) {
+        $guildID = $request->get('guildID');
+        if (!$guildID) {
+            return ['error' => 'guildID is a required parameter.'];
+        }
+        
+        // Attempt to find original character
+        $main = Character::where(['name' => $character, 'guildID' => $guildID])->first();
+        if (!$main) {
+            return ['error' => 'Character does not exist.'];
+        }
+        
+        // if MainID is set, this is not the main.
+        if ($main->mainID) {
+            // Retrieve the main
+            $main = Character::where(['id' => $mainID, 'guildID' => $guildID])->first();
+        }
+        $main->isMain = true;
+        $main->getSignups();
+
+        // Retrieve all alts
+        $alts = Character::where('mainID', $main->id)->get();
+
+        // Move all characters to a single array
+        $returnArray = [$main];
+        foreach ($alts AS $alt) {
+            $alt->getSignups();
+            $returnArray[] = $alt;
+        }
+
+        // Return our array
+        return $returnArray;
+    });
+
     Route::get('/raids', function() {
         $guildID = request()->get('access')->guildID;
         $raids = Raid::where('guildID', $guildID)
             ->where('date', '>', date('Y-m-d, h:i:s'))
             ->get();
-    
+        
         return RaidResource::collection($raids);
     });
     
