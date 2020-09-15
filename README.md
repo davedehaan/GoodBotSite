@@ -40,3 +40,9 @@ Parameters:
 * none
 Returns more detailed information (including reserves) for the specified raid ID.
 
+
+## /nick
+Parameters:
+* memberID
+* guildID
+Returns the nickname (or username if nick does not exist) of the member on the specified server.

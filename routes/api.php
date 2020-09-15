@@ -23,6 +23,8 @@ use App\Http\Resources\RaidFull AS RaidFullResource;
 Route::middleware(['api'])->group(function() {
     Route::get('/reserve', 'APIController@reserve')->name('api.reserve');
     Route::get('/reserve/items', 'APIController@reserveItems')->name('api.reserve.items');
+    Route::get('/nick', 'APIController@nick')->name('api.nick');
+
 
     Route::get('/info/{character}', function(Request $request, $character) {
         $guildID = $request->get('guildID');

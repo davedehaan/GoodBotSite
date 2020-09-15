@@ -11,6 +11,20 @@ use App\RaidReserve;
 
 class APIController extends Controller
 {
+    public function nick() {
+        $params = $this->checkRequired(['guildID', 'memberID']);
+        if (!empty($params['error'])) {
+            return $params;
+        }
+        $userInfo = $this->botRequest('/guilds/' . $params['guildID'] . '/members/' . $params['memberID']);
+
+        $nick = null;
+        if (property_exists($userInfo, 'user')) {
+            $nick = property_exists($userInfo, 'nick') && !empty($userInfo->nick) ? $userInfo->nick : $userInfo->user->username;
+        }
+        return ['nick' => $nick];
+    }
+
     public function reserve() {
         $params = $this->checkRequired(['signupID', 'reserveItemID']);
         if (!empty($params['error'])) {
