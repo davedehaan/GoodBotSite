@@ -21,6 +21,8 @@ use App\Http\Resources\RaidFull AS RaidFullResource;
 */
 
 Route::middleware(['api'])->group(function() {
+    Route::get('/reserve', 'APIController@reserve')->name('api.reserve');
+    Route::get('/reserve/items', 'APIController@reserveItems')->name('api.reserve.items');
 
     Route::get('/info/{character}', function(Request $request, $character) {
         $guildID = $request->get('guildID');
@@ -57,16 +59,16 @@ Route::middleware(['api'])->group(function() {
     });
 
     Route::get('/raids', function() {
-        $guildID = request()->get('access')->guildID;
+        $guildID = request()->get('guildID');
         $raids = Raid::where('guildID', $guildID)
-            ->where('date', '>', date('Y-m-d, h:i:s'))
-            ->get();
+        ->where('date', '>', date('Y-m-d') + ' 00:00:00')
+        ->where('date', '<', date('Y-m-d', strtotime('+3 months')))
+        ->get();
         
         return RaidResource::collection($raids);
     });
     
     Route::get('/raid/{raidID}', function($raidID) {
-        $guildID = request()->get('access')->guildID;
         $raid = Raid::with(['signups', 'signups.reserve.item'])
             ->where('guildID', $guildID)
             ->find($raidID);
@@ -74,31 +76,6 @@ Route::middleware(['api'])->group(function() {
         return new RaidFullResource($raid);
     });
     
-    
-    Route::get('/signups', function(Request $request) {
-        $memberID = $request->get('access')->memberID;
-        $signups = Signup::where('memberID', $memberID)
-            ->whereHas('raid', function($q) {
-                $q->where('date', '>', date('Y-m-d, h:i:s'));
-            })
-            ->with(['raid', 'reserve', 'reserve.item'])
-            ->get();
-
-        return SignupResource::collection($signups);
-    });
-    
-    Route::get('/signups/{name}', function($name) {
-        $guildID = request()->get('access')->guildID;
-        $signups = Signup::where('player', $name)
-            ->where('guildID', $guildID)
-            ->whereHas('raid', function($q) {
-                $q->where('date', '>', date('Y-m-d, h:i:s'));
-            })
-            ->with(['raid', 'reserve', 'reserve.item'])
-            ->get();
-        return SignupResource::collection($signups);
-    });
-
     Route::get('/signup', function(Request $request) {
         $parameters = [
             'raidID'        => $request->get('raidID'),

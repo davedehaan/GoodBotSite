@@ -16,6 +16,19 @@ Parameters:
 Signs the specified character up for the specified raid.
 
 
+### /api/reserve/items
+Parameters:
+* raid
+Lists all items available for reserve for a specified raid, as well as their id.
+
+
+### /api/reserve
+Parameters:
+* signupID
+* reserveItemID
+Creates or updates a reserve for a specified signup.
+
+
 ### /api/raids
 Parameters:
 * guildID
