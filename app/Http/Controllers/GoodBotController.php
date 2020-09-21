@@ -8,9 +8,11 @@ use App\RaidReserve;
 use App\ReserveItem;
 use App\RaidHash;
 use App\Signup;
+use App\Item;
 
 class GoodBotController extends Controller
 {
+
     public function OAuth() {
         return redirect()->route('character.servers');
     }
