@@ -57,7 +57,7 @@ class Controller extends BaseController
     public function getServer($serverID, $adminCheck = true) {
         
         // Retrieve guild information
-        $servers = $this->botRequest('/guilds');
+        $servers = $this->botRequest('/users/@me/guilds');
         usort($servers, function($a, $b) { return $a->name <=> $b->name; });
         session(['guilds' => $servers]);
         

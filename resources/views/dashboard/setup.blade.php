@@ -70,7 +70,7 @@
                     <option></option>
                     <optgroup label="North America/Oceanic">
                         @foreach ($naServerList AS $wowServer)
-                            <option value="NA/{{ $wowServer}}">{{ $wowServer }}</option>
+                            <option value="US/{{ $wowServer}}">{{ $wowServer }}</option>
                         @endforeach
                     </optgroup>
                     <optgroup label="Europe">
