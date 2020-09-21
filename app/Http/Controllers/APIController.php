@@ -258,14 +258,8 @@ class APIController extends Controller
 
         $return = [
             'raidTime' => date('Y-m-d H:i:s', $lastReport->startTime/1000),
-            'data' => [
-                $gearCache[$character]
-            ]
+            'data' => $gearCache[$character]
         ];
-
-        echo '<pre>';
-        print_r($return);
-        exit;
 
         //TODO: CACHE GearCache
         return $return;
