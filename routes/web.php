@@ -31,6 +31,10 @@ Route::post('/upload', function () {
 Route::get('/', function () {
     return view('index');
 });
+
+Route::get('/gear/{player}/{server}/{region}', 'RaidController@gear')->name('gear');
+
+
 Route::get('/darkmode', 'UserController@darkmode')->name('darkmode');
 Route::get('/logout', 'UserController@logout')->name('logout');
 

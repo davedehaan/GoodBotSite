@@ -3357,9 +3357,6 @@ mark {
 	table td a {
 		border: none;
 	}
-	table tr td:last-of-type {
-		text-align: right;
-	}
 	.input-name, .select-class, .select-role {
 		display: none;
 	}

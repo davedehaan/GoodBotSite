@@ -8,6 +8,7 @@ header.special {
 a {
     color: #333;
     border-bottom: none;
+    cursor: pointer;
 }
 a img {
     border: none;
@@ -61,4 +62,133 @@ label.error {
     border: none;
     padding: 0;
     margin: 0;
+}
+.green {
+    color: green;
+}
+.red {
+    color: red;
+}
+#gear-modal {
+    width: 400px;
+    height: 600px;
+    padding-top: 30px;
+    background: #FFF;
+    border: solid 1px #CCC;
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    margin-left: -200px;
+    background: #333;
+    border-radius: 3px;
+    display: none;
+}
+#gear-side {
+    width: 73px;
+    height: 600px;
+    float: left;
+}
+#gear-middle {
+    width: 250px;
+    height: 600px;
+    float: left;
+    position: relative;
+    color: #FFF;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+.gear-bottom {
+    width: 100%;
+    height: 100px;
+    position: absolute;
+    top: 490px;
+    left: 0;
+}
+.gear-lastseen {
+    font-size: 14px;
+}
+#gear-modal-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #000;
+    border: none;
+    line-height: 20px;
+    font-size: 20px;
+    color: #FFF;
+}
+.gear-box {
+    width: 65px;
+    height: 65px;
+    margin: 5px 5px 0;
+    border: solid 1px #000;
+    border-radius: 3px;
+    float: left;
+    background-size: contain;
+}
+#gear-middle .gear-box:first-of-type {
+    margin-left: 20px;
+}
+.gear-loading img {
+    margin: 25px;
+    width: 50px;
+}
+.wowhead-tooltip p { 
+    display: none;
+}
+.text-right {
+    text-align: right;
+}
+a[quality="0"] {
+    border: solid 1px #9d9d9d;
+}
+a[quality="1"] {
+    border: solid 1px #ffffff;
+}
+a[quality="2"] {
+    border: solid 1px #1eff00;
+}
+a[quality="3"] {
+    border: solid 1px #0070dd;
+}
+a[quality="4"] {
+    border: solid 1px #a335ee;
+}
+a[quality="5"] {
+    border: solid 1px #ff8000;
+}
+.color-druid {
+    color: #FF7D0A;
+}
+.color-hunter {
+    color: #A9D271;
+}
+.color-mage {
+    color: #40C7EB;
+}
+.color-paladin {
+    color: #F58CBA;
+}
+.color-priest {
+    color: #FFFFFF;
+}
+.color-rogue {
+    color: #FFF569;
+}
+.color-shaman {
+    color: #0070DE;
+}
+.color-warlock {
+    color: #8787ED;
+}
+.color-warrior {
+    color: #C79C6E;
+}
+.container h2, .container h4 {
+    margin-bottom: 0;
+}
+h2 i {
+    font-size: 12px;
+    margin-left: 10px;
 }

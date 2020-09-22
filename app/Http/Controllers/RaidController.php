@@ -46,9 +46,19 @@ class RaidController extends Controller
                 $signup->class = 'unknown';
             }
         }
+        $signupArray = [];
+        foreach ($signups AS $key => $signup) {
+            $signup->order = $key + 1;
+            $signupArray[] = $signup;
+        }
+        
+        usort($signupArray, function($a, $b) {
+            return $a->class <=> $b->class;
+        });
+
         return view('raids.lineup')
             ->with('raid', $raid)
-            ->with('signups', $signups);
+            ->with('signups', $signupArray);
     }
 
     public function reserves($raidID)
@@ -155,6 +165,9 @@ class RaidController extends Controller
         if ($type == 'pingunsigned') {
             $this->sendMessage(0, $raid->channelID, '+unsigned');
         }
+        if ($type == 'refresh') {
+            $this->sendMessage(0, $raid->channelID, '+embed refresh');
+        }
         if ($type == 'dupe') {
             $this->sendMessage(0, $raid->channelID, '+dupe');
         }
@@ -163,6 +176,37 @@ class RaidController extends Controller
         }
 
         return back();
+    }
+
+    public function gear($player, $server, $region) {
+        $searchUrl = "https://goodbot.me/api/gear/" . $player . "/" . $server . "/" . $region . "?id=" . env('GOODBOT_ID') . "&key=" . env('GOODBOT_KEY');
+
+        // init curl
+        $ch = curl_init($searchUrl);
+
+        // curl settings
+        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        $response = json_decode(curl_exec($ch));
+
+        if (property_exists($response, 'error')) {
+            return ['error' => $response->error];
+        }
+
+        $itemList = [];
+        foreach ($response->data AS $fight) {
+            foreach ($fight->gear AS $item) {
+                if (empty($itemList[$item->slot])) {
+                    $itemList[$item->slot] = [];
+                }
+                $itemList[$item->slot][$item->id] = $item;
+            }
+        }
+
+        return ['items' => $itemList, 'date' => date('F d, Y', strtotime($response->raidTime))];
+
     }
 
     public function getRaid($raidID) {
