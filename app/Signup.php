@@ -17,6 +17,11 @@ class Signup extends BaseModel
         return $this->belongsTo('App\Raid', 'raidID', 'id');
     }
 
+    public function Character()
+    {
+        return $this->belongsTo('App\Character', 'characterID', 'id');
+    }
+
     public function Reserve()
     {
         return $this->hasOne('App\RaidReserve', 'signupID', 'id');

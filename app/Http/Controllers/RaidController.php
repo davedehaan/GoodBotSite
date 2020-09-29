@@ -35,17 +35,15 @@ class RaidController extends Controller
         $characters = $this->getCharacters($signups, $raid->guildID);
         $crosspostChararacters = $this->getCharacters($signups, $raid->crosspostID);
         foreach ($signups AS $signup) {
-            if (array_key_exists($signup->player, $characters)) {
-                $signup->role = $characters[$signup->player]->role;
-                $signup->class = $characters[$signup->player]->class;
-            } else if (array_key_exists($signup->player, $crosspostChararacters)) {    
-                $signup->role = $crosspostChararacters[$signup->player]->role;
-                $signup->class = $crosspostChararacters[$signup->player]->class;
+            if ($signup->character) {
+                $signup->role = $signup->character->role;
+                $signup->class = $signup->character->class;
             } else {
                 $signup->role = 'unknown';
                 $signup->class = 'unknown';
             }
         }
+
         $signupArray = [];
         foreach ($signups AS $key => $signup) {
             $signup->order = $key + 1;
