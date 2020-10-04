@@ -192,3 +192,94 @@ h2 i {
     font-size: 12px;
     margin-left: 10px;
 }
+@media screen and (max-width: 736px) {
+    .wrapper.style2 {
+        padding: 0;
+    }
+    table td, table th {
+        padding: 0 2px 0;
+        font-size: 10px;
+        text-align: left;
+    }
+    #header.alt {
+        display: block;
+        padding: .5em 0;
+    }
+    #header nav {
+        display: none;
+    }
+    #banner {
+        padding: 1.5em;
+    }
+    body.index #main {
+        padding-top: 0;
+    }
+    h1#logo {
+        font-size: 20px;
+    }
+    h2 {
+        text-align: left;
+        padding: .5em;
+    }
+    h4 {
+        text-align: left;
+        color: #CCC;
+        padding: 0 .5em;
+    }
+    header.special.container {
+        display: none;
+    }
+    .gb-row, .gb-row label, .gb-row input, .gb-row select, .gb-row textarea {
+        text-align: left;
+        margin: .5em 2% 0;
+        width: 96%;
+        font-size: .85em;
+    }
+    .gb-row .sp-replacer {
+        margin: 0 2%;
+    }
+    .gb-row button {
+        margin: 15px 2%;
+        width: 96%;
+        max-width: 96%;
+    }
+    .gb-actions {
+        clear: both;
+    }
+    .gb-actions button {
+        float: left;
+        width: 46%;
+        margin: 2%;
+        padding: 0;
+        min-width: 0;
+        font-size: 10px;
+    }
+    .gb-lineup-bottom {
+        padding: .5em;
+        border-top: solid 2px #CCC;
+        margin-top: 2em;
+    }
+    .gb-lineup-bottom button {
+        max-width: 90%;
+        margin: 1em 5%;
+    }
+    .gb-lineup-top {
+        border-bottom: solid 2px #CCC;
+        margin-bottom: 2em;
+    }
+    .gb-lineup-top a {
+        padding: .5em;
+    }
+    .container {
+        clear: both;
+        text-align: left;
+        min-height: 100px;
+    }
+    .wrapper {
+        margin-bottom: 0;
+    }
+    table span.icon {
+        font-size: 1.5em;
+        margin-left: .5em;
+    }
+}

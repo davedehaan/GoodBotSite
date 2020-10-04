@@ -20,6 +20,11 @@ class Raid extends BaseModel
         return $this->hasMany('App\Signup', 'raidID', 'id');
     }
 
+    public function Leaders()
+    {
+        return $this->hasMany('App\RaidLeader', 'raidID', 'id');
+    }
+
     public function createRaid($saveData) {
         // Retrieve the parent category for the raid
         $guildID = $saveData['guildID'];

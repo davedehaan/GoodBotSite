@@ -48,24 +48,26 @@
     </div>
 </div>
 <section class="wrapper style2 container special-alt">
-    <div class="container">
+    <div class="container gb-lineup-top">
         <h2>Manage Lineup</h2>
         <h4>{{ $raid->name }}<h4>
         <h4>{{ date('F d, Y', strtotime($raid->date)) }}</h4>
-    <a href="/raids/{{ $raid->id }}/manage">Edit Raid &rarr;</a><br />
+        <a href="/raids/{{ $raid->id }}/manage">Edit Raid &rarr;</a><br />
+    </div>
     <div class="container">
         @include('raids/_partials/signup', ['role' => 'tank', 'label' => 'Tanks', 'signup' => 'yes'])
         @include('raids/_partials/signup', ['role' => 'healer', 'label' => 'Healers', 'signup' => 'yes'])
         @include('raids/_partials/signup', ['role' => 'caster', 'label' => 'Casters', 'signup' => 'yes'])
         @include('raids/_partials/signup', ['role' => 'dps', 'label' => 'DPS', 'signup' => 'yes'])
     </div>
-    <i>New confirmations will not show in the sign-up channel until the embed is refreshed.<br />
-        This can be done via the button, another playing signing up, or a raid setting being changed.</i>
-    <br />
-    <a href="/raids/{{ $raid->id }}/command/refresh">
-        <button>Refresh Channel</button>
-    </a> 
-</div>
+    <div class="container gb-lineup-bottom">
+        <i>New confirmations will not show in the sign-up channel until the embed is refreshed.<br />
+            This can be done via the button, another playing signing up, or a raid setting being changed.</i>
+        <br />
+        <a href="/raids/{{ $raid->id }}/command/refresh">
+            <button>Refresh Channel</button>
+        </a> 
+    </div>
 </section>
 
 @endsection

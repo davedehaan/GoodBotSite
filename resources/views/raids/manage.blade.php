@@ -3,7 +3,7 @@
 @section('content')
 
 <section class="wrapper style2 container special-alt">
-    <div class="container">
+    <div class="gb-actions">
         <a href="/raids/{{ $raid->id }}/command/pingall">
             <button>Ping Raid</button>
         </a>
@@ -27,6 +27,8 @@
         <a href="/raids/{{ $raid->id }}/command/archive">
             <button>Archive</button>
         </a>   
+    </div>
+    <div class="container">
         @include('raids/_partials/form')
     </div>
 </section>

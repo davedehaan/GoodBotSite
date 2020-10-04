@@ -1,9 +1,9 @@
 <table>
     <tr>
         <th width="30%" colspan="2">{{ $label }}</th>
-        <th width="35%"></th>
         <th width="25%"></th>
-        <th width="10%"></th>
+        <th width="25%"></th>
+        <th width="20%"></th>
     </tr>
     
     @foreach ($signups AS $key => $signup)
