@@ -82,6 +82,7 @@ label.error {
     background: #333;
     border-radius: 3px;
     display: none;
+    z-index: 999;
 }
 #gear-side {
     width: 73px;
@@ -281,5 +282,8 @@ h2 i {
     table span.icon {
         font-size: 1.5em;
         margin-left: .5em;
+    }
+    #gear-modal {
+        top: 2.5em;
     }
 }
