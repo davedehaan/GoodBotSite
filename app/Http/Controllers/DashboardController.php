@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Log;
+use App\Raid;
 use App\Setting;
+use App\Guild;
 
 class DashboardController extends Controller
 {
@@ -20,6 +22,17 @@ class DashboardController extends Controller
         $this->goodBotInstalled($serverID);        
         return view('dashboard.dashboard')
             ->with('server', $currentServer);
+    }
+
+    public function admin() {
+        if (!env('dashboard_key') || request()->query('key') != env('dashboard_key')) { abort(404); }
+        $logs = Log::orderBy('createdAt', 'DESC')->limit(100)->get();
+        $raids = Raid::orderBy('createdAt', 'DESC')->limit(20)->get();
+        $guilds = Guild::orderBy('createdAt', 'DESC')->limit(20)->get();
+        return view('dashboard.admin')
+            ->with('logs', $logs)
+            ->with('raids', $raids)
+            ->with('guilds', $guilds);
     }
 
     public function logs($serverID) {
