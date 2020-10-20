@@ -53,13 +53,14 @@ class CharacterController extends Controller
         // Retrieve the user's main on this server
         $main = $this->getMain($serverID);
 
-        // 
+        // If the user has no main, and they've set a nickname other than their current nickname in the discord, change their nickname
         if ($name != $nick && empty($characterID) && empty($main)) {
             $result = $this->setNick($serverID, $name, true);
             if (is_object($result) && $result->code == 50013) {
                 die('The bot could not automatically change your name due to permissions issues.  It must have a higher role within roles than the person it is trying to change.  Please note that it can never change the nickname of an administrator.<br />Please fix the permission issue, or manually change your name to "' . $name . '" and try again.');
             }
         }
+
         $class = request()->query('class');
         $role = request()->query('role');
         $record = [
