@@ -189,6 +189,9 @@ a[quality="5"] {
 .container h2, .container h4 {
     margin-bottom: 0;
 }
+.align-right {
+    text-align: right;
+}
 h2 i {
     font-size: 12px;
     margin-left: 10px;

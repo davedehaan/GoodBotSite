@@ -68,13 +68,21 @@ class CharacterController extends Controller
             'role' => $role,
             'memberID' => session()->get('user')->id
         ];
-        // We couldn't find their main -- this must be it!
+
+        // If characterID is empty, the person is attempting to create a new char.
         if (empty($characterID)) {
-            $record['guildID'] = $serverID;
-            if ($main) {
+            // If the character already exists, it's just not set up as the player's alt.  Fix that.
+            $existing = Character::where('name', $name)->where('guildID', $serverID)->first();
+            if ($existing) {
                 $record['mainID'] = $main->id;
+                Character::where('id', $existing->id)->update($record);
+            } else {
+                $record['guildID'] = $serverID;
+                if ($main) {
+                    $record['mainID'] = $main->id;
+                }
+                Character::create($record);
             }
-            Character::create($record);
         } else {
             if ($main->id == $characterID && $main->name != $name) {
                 $result = $this->setNick($serverID, $name, true);

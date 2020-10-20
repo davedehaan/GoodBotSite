@@ -9,6 +9,9 @@
       font-family: Lato, sans-serif;
       font-weight: bold;
     }
+    .orange {
+        color: orange;
+    }
 </style>
 <section class="wrapper style2 container special-alt">
     @if (empty($characters))
@@ -53,10 +56,15 @@
                 <tr character="{{ $character->id }}">
                     <td>
                         <span class="character-name">{{ $character->name }}</span>
+                        @if (empty($character->mainID)) 
+                            <i class="orange">main</i>
+                        @else
+                            <i class="red">alt</i>
+                        @endif
                         <input class="input-name" value="{{ $character->name }}" />
                     </td>
                     <td>
-                        <span class="character-class">{{ $character->class }}</span>
+                        <span class="character-class color-{{ $character->class }}">{{ $character->class }}</span>
                         <select class="select-class">
                             @foreach ($classes AS $class)
                                 <option 
@@ -86,7 +94,7 @@
                             @endforeach
                         </select>
                     </td>
-                    <td>
+                    <td class="align-right">
                         <a onclick="saveCharacter({{ $character->id }});">
                             <i class="fa fa-save"></i>
                         </a>
@@ -121,11 +129,11 @@
                         @endif
                     </select>
                 </td>
-                <td>
+                <td class="align-right">
                     <a onclick="saveCharacter(0);">
                         <i class="fa fa-save"></i>
                     </a>
-                    <a onclick="addNew();"><i class="fa fa-plus"> <span>Add an Alt</span></i> </a>
+                    <a onclick="addNew();"><i class="fa fa-plus green"> <span>Add Character</span></i> </a>
                 </td>   
             </tr>
             </table>
