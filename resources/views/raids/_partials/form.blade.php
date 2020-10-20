@@ -47,7 +47,7 @@
     </div>
     <div class="gb-row">
         <label for="channel">Channel Name</label>
-        <input required id="channel" name="channel" value="{{ property_exists($channel, 'name') ? $channel->name : '' }}"/>
+        <input required id="channel" name="channel" value="{{ !empty($channel) ? $channel->name : '' }}"/>
     </div>
     <div class="gb-row">
         <label for="color">Sidebar Color</label>
