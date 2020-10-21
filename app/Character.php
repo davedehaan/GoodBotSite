@@ -13,6 +13,25 @@ class Character extends Model
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'updatedAt';
 
+    public function stats() {
+        return [
+            'signups' => Signup::where('characterID', $this->id)->count(),
+            'noshows' => Signup::where('characterID', $this->id)->where('noshow', 1)->count()
+        ];
+    }
+
+    public function main() {
+        if (empty($this->mainID)) {
+            return $this;
+        } else {
+            return $this->findOrFail($this->mainID);
+        }
+    }
+
+    public function alts() {
+        return $this->where('mainID', $this->main()->id)->get();
+    }
+
     public function getSignups() {
         $signups = Signup::where('player', $this->name)
             ->where('guildID', $this->guildID)

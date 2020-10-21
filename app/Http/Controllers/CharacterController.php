@@ -15,6 +15,17 @@ class CharacterController extends Controller
         ->with('servers', $servers);
     }
 
+    public function lookup($serverID)
+    {
+        $q = request()->query('q');
+        if ($q) {
+            $chararacter = Character::where('name', $q)->where('guildID', $serverID)->first();
+            if ($character && empty($character->mainID)) {
+                $character = Character::where('id', $character->mainID)->first();
+            }
+        }
+    }
+
     public function server($serverID)
     {
         $currentServer = $this->getServer($serverID, false);

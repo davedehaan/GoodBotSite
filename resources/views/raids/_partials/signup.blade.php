@@ -10,9 +10,14 @@
         @if ($signup->role == $role && $signup->signup == 'yes')
         <tr signup="{{ $signup->id }}">
             <td width="30px">{{ $signup->order }}</td>
-            <td width="">{{ $signup->player }}</td>
+            <td onclick="playerInfo(this, {{ $signup->character->mainID ?: $signup->character->id }});">{{ $signup->player }} 
+            @if ($signup->character->mainID)
+                (<i class="orange">alt</i>)
+            @else
+                (<i class="green">main</i>)
+            @endif
+            </td>
             <td class="color-{{ $signup->class }}">{{ ucfirst($signup->class) }}</td>
-
             <td>
                 @if ($raid->confirmation)
                     @if ($signup->confirmed) <strong class="green">Confirmed</strong> @else <strong class="red">Unconfirmed</strong>@endif</td>

@@ -20,9 +20,9 @@
                 <td>{{ $raid->title ?: $raid->name ?: $raid->raid }}</td>
                 <td>{{ $raid->raid }}</td>
                 <td>{{ $raid->date }}</td>
-                <td><a href="/raids/{{ $raid->id }}/lineup">Lineup</a></td>
-                <td><a href="/raids/{{ $raid->id }}/reserves">Reserves</a></td>
-                <td><a href="/raids/{{ $raid->id }}/manage">Manage</a></td>
+                <td><a href="/raids/lineup/{{ $raid->id }}">Lineup</a></td>
+                <td><a href="/raids/reserves/{{ $raid->id }}">Reserves</a></td>
+                <td><a href="/raids/manage/{{ $raid->id }}">Manage</a></td>
             @endforeach
             </tr>
         </table>

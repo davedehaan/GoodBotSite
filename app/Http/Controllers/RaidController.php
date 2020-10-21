@@ -29,6 +29,21 @@ class RaidController extends Controller
             ->with('raids', $raids);
     }
 
+    public function character($raidID, $characterID) {
+        $character = Character::findOrFail($characterID);
+        $characters = [$character->main()];
+        foreach ($character->alts() AS $alt) {
+            $characters[] = $alt;
+        }
+        foreach ($characters AS $character) {
+            $character->stats = $character->stats();
+            $character->ucclass = ucfirst($character->class);
+            $character->ucrole = ucfirst($character->role);
+        }
+        
+        return $characters;
+    }
+
     public function lineup($raidID) {
         $raid = $this->getRaid($raidID);
         $signups = Signup::where('raidID', $raidID)->get();

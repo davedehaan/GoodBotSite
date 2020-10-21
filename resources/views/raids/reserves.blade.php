@@ -65,7 +65,7 @@
         }); 
     });
     function saveReserve(itemID, signupID) {
-        window.location = '/reserve/' + signupID + '/' + itemID + '?back=/raids/{{ $raid->id }}/reserves';
+        window.location = '/reserve/' + signupID + '/' + itemID + '?back=/raids/reserves/{{ $raid->id }}';
     }
     function showSelect(signupID) {
         var row = $('[signup=' + signupID + ']');

@@ -63,11 +63,17 @@ label.error {
     padding: 0;
     margin: 0;
 }
+.info-row {
+    background: #CCC;
+}
 .green {
-    color: green;
+    color: #A9D271;
 }
 .red {
     color: red;
+}
+.orange {
+    color: #ff8000;
 }
 #gear-modal {
     width: 400px;
@@ -289,4 +295,7 @@ h2 i {
     #gear-modal {
         top: 2.5em;
     }
+}
+table.no-padding {
+    margin: 0;
 }

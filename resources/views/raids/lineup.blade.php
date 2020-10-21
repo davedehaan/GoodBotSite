@@ -74,6 +74,43 @@
 
 @section('scripts')
     <script>
+        function playerInfo(el, mainID) {
+            $.ajax({
+                url: '/raids/{{ $raid->id }}/character/' + mainID,
+                success: function(data) {
+                    $row = $('<tr main="' + mainID + '"></tr>');
+                    $(el).parent().after($row);
+                    $row.append('<td colspan=5><table class="no-padding" /></td>');
+                    $table = $row.find('table');
+                    $header = $('<tr>');
+                    $header.append('<td width="5%" />');
+                    $header.append('<td width="15%">Name</td>');
+                    $header.append('<td width="15%">Class</td>');
+                    $header.append('<td width="15%">Role</td>');
+                    $header.append('<td width="20%">Signups</td>');
+                    $header.append('<td width="20%">No Shows</td>');
+                    $header.append('<td width="10%" class="align-right"><span onclick="deleteRow(this);" class="icon solid fa-ban"></span></td>');
+                    $table.append($header);
+                    data.forEach((character, key) => {
+                        $childRow = $('<tr class="info-row"></tr>');
+                        if (key == 0)
+                            $childRow.append('<td width="5%">*</td>');
+                        else
+                            $childRow.append('<td width="5%"></td>');
+                        $childRow.append('<td width="15%">' + character.name + '</td>');
+                        $childRow.append('<td width="15%"><i class="color-' + character.class + '">' + character.ucclass + '</i></td>');
+                        $childRow.append('<td width="15%">' + character.ucrole + '</td>');
+                        $childRow.append('<td width="20%">' + character.stats.signups + '</td>');
+                        $childRow.append('<td width="20%">' + character.stats.noshows + '</td>');
+                        $childRow.append('<td width="10%" />');
+                        $table.append($childRow);
+                    });
+                }
+            })
+        }
+        function deleteRow(el) {
+            $(el).parents('tr').remove();
+        }
         function addConfirm(signupID) {
             var row = $('[signup=' + signupID + ']');
             $.ajax({
