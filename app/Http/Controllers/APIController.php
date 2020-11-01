@@ -126,23 +126,25 @@ class APIController extends Controller
                     character(name: "' . $character . '", serverSlug: "' . $server . '", serverRegion: "' . $region . '") {
                         id
                         recentReports(limit: 1) {
-                            startTime
-                            masterData {
-                                actors {
+                            data {
+                                startTime
+                                masterData {
+                                    actors {
+                                        id
+                                        name
+                                        subType
+                                    }
+                                }
+
+                                fights {
                                     id
                                     name
-                                    subType
+                                    encounterID
                                 }
-                            }
 
-                            fights {
-                                id
-                                name
-                                encounterID
-                            }
-
-                            events(startTime: -1, endTime: 9999999999, dataType: CombatantInfo, limit: 999999) {
-                                data
+                                events(startTime: -1, endTime: 9999999999, dataType: CombatantInfo, limit: 999999) {
+                                    data
+                                }
                             }
                         }
                     }
@@ -157,6 +159,7 @@ class APIController extends Controller
 
         $response = curl_exec($ch);
         $response = json_decode($response);
+        print_r($response);
         
         // Drill down to the actual report
         if (empty($response->data->characterData->character)) {
