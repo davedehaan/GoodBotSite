@@ -164,8 +164,7 @@ class APIController extends Controller
         if (empty($response->data->characterData->character)) {
             return ['error' => 'Player does not exist.'];
         }
-        $lastReport = $response->data->characterData->character->recentReports[0];
-        
+        $lastReport = $response->data->characterData->character->recentReports->data[0];
         // Retrieve a list of all players who were present
         $players = $lastReport->masterData->actors;
         $playerLookup = [];
