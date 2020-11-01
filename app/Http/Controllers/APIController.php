@@ -159,7 +159,6 @@ class APIController extends Controller
 
         $response = curl_exec($ch);
         $response = json_decode($response);
-        print_r($response);
         
         // Drill down to the actual report
         if (empty($response->data->characterData->character)) {
