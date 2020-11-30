@@ -107,7 +107,7 @@
 										<header>
 											<h3>Great Support</h3>
 										</header>
-										<p>The <a href="http://discord.setback.me">development discord</a> has multiple developers and experienced users who can help you work through whatever issue you're having.</p>
+										<p>The <a href="http://discord.goodbot.me/">development discord</a> has multiple developers and experienced users who can help you work through whatever issue you're having.</p>
 									</section>
 
 								</div>
