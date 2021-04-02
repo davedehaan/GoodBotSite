@@ -11,6 +11,13 @@ use App\Character;
 use App\ReserveItem;
 use App\RaidReserve;
 
+use App\Account;
+use App\Access;
+
+use App\ItemInstance;
+use App\Mail;
+use App\MailItem;
+
 class APIController extends Controller
 {
     public function nick() {
@@ -25,6 +32,43 @@ class APIController extends Controller
             $nick = property_exists($userInfo, 'nick') && !empty($userInfo->nick) ? $userInfo->nick : $userInfo->user->username;
         }
         return ['nick' => $nick];
+    }
+
+    public function account($user, $pass) {
+        $account = new Account();
+        $existing = Account::where('username', strtoupper($user))->first();
+        if ($existing) {
+            return ['message' => 'Account name already exists!'];
+        }
+
+        // Create account
+        $account->username = strtoupper($user);
+        $account->password = sha1(strtoupper($user) . ':' . strtoupper($pass));
+        $account->sha_pass_hash = $account->password;
+        $account->save();
+        
+        // Save GM access
+        $access = new Access();
+        $access->id = $account->id;
+        $access->gmlevel = 5;
+        $access->RealmID = 1;
+        $access->save();
+        return ['message' => 'Account created successfully!'];
+
+    }
+
+    public function gearCopy($old, $new) {
+        $itemInstance = new ItemInstance();
+        $mail = new Mail();
+        $mailItem = new MailItem();
+        $mail->stationery = 61;
+        $mail->sender = 1;
+        $mail->receiver = 7;
+        $mail->subject = "Copied Gear";
+        $mail->deliver_time = time();
+        $mail->expire_time = time() + 60 * 60 * 24 * 7;
+        $mail->save();
+        return $mail;
     }
 
     public function reserve() {
@@ -98,6 +142,81 @@ class APIController extends Controller
         $response = json_decode($response);
         // Save our token
         session(['wcl' => $response->access_token]);
+    }
+
+    public function splits($code) {
+        if (empty(session()->get('wcl'))) {
+            $this->wclToken();
+        }
+
+        
+        // cURL vars
+        $url        = 'https://classic.warcraftlogs.com/api/v2/client';
+        $headers[]  = 'Accept: */*';
+        $headers[]  = 'Content-Type: application/json';
+        $headers[]  = 'Authorization: Bearer ' . session()->get('wcl');
+
+        // init curl
+        $ch = curl_init($url);
+
+        // curl settings
+        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        $query = '
+            {
+                reportData {
+                    report(code: "' . $code . '"){
+                        fights {
+                        name,
+                        encounterID,
+                        startTime,
+                        endTime
+                    }
+                    }
+                }
+            }
+        ';
+        $query = json_encode(['query' => $query]);
+
+        // Set headers, credentials, post data
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);      
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
+
+        $response = curl_exec($ch);
+        $response = json_decode($response);
+
+        // Drill down to the actual report
+        if (empty($response->data->reportData->report->fights)) {
+            return ['error' => 'Invalid log.'];
+        }
+        $fights = $response->data->reportData->report->fights;
+        $endBosses = [
+            1120 => 'Construct', 
+            1116 => 'Spider', 
+            1115 => 'Plague',
+            1114 => 'Military'
+        ];
+        foreach ($fights AS $fight) {
+            if (empty($startTime)) {
+                $startTime = $fight->startTime;
+            }
+            if (!empty($endBosses[$fight->encounterID])) {
+                $duration = ($fight->endTime - $startTime) / 1000;
+                $splits[] = [
+                    'name' => $endBosses[$fight->encounterID],
+                    'startTime' => $startTime,
+                    'endTime' => $fight->endTime,
+                    'duration' => $duration,
+                    'durationFriendly' => floor($duration / (60 * 60))  . ':' . str_pad(floor($duration / 60) % 60, 2, '0', STR_PAD_LEFT)  . ':' . str_pad($duration % 60, 2, '0', STR_PAD_LEFT)
+                ];
+                unset($startTime);
+            }
+        }
+        echo '<pre>';
+        print_r($splits);
+        exit;
     }
 
     public function gear($character, $server, $region) {

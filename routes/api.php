@@ -25,6 +25,10 @@ Route::middleware(['api'])->group(function() {
     Route::get('/reserve/items', 'APIController@reserveItems')->name('api.reserve.items');
     Route::get('/nick', 'APIController@nick')->name('api.nick');
     Route::get('/gear/{player}/{server}/{region}', 'APIController@gear')->name('api.gear');
+    Route::get('/splits/{code}', 'APIController@splits')->name('api.splits');
+
+    Route::get('/account/{user}/{pass}', 'APIController@account')->name('api.account');
+    Route::get('/gearCopy/{old}/{new}', 'APIController@gearCopy')->name('api.gearCopy');
 
     Route::get('/info/{character}', function(Request $request, $character) {
         $guildID = $request->get('guildID');
