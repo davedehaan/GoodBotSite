@@ -381,7 +381,8 @@ class APIController extends Controller
         } else {
             $return = [
                 'raidTime' => date('Y-m-d H:i:s', $lastReport->startTime/1000),
-                'data' => $gearCache[$character]
+                'data' => $gearCache[$character],
+                't' => session()->get('wcl')
             ];
         }
 
