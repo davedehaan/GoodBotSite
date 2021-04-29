@@ -238,13 +238,13 @@ class APIController extends Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-
+        $limit = intval($raid) + 1;
         $query = '
             {
                 characterData {
                     character(name: "' . $character . '", serverSlug: "' . $server . '", serverRegion: "' . $region . '") {
                         id
-                        recentReports(limit: ' . $raid + 1 . ') {
+                        recentReports(limit: ' . $limit . ') {
                             data {
                                 startTime
                                 masterData {
