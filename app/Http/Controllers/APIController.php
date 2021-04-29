@@ -244,7 +244,7 @@ class APIController extends Controller
                 characterData {
                     character(name: "' . $character . '", serverSlug: "' . $server . '", serverRegion: "' . $region . '") {
                         id
-                        recentReports(limit: 1) {
+                        recentReports(limit: 3) {
                             data {
                                 startTime
                                 masterData {
@@ -280,7 +280,7 @@ class APIController extends Controller
         $response = json_decode($response);
         
         // Drill down to the actual report
-        if (empty($response->data->characterData->character)) {
+        if (empty($response->data->characterData->character) || $raid == 3) {
             return ['error' => 'Player does not exist.'];
         }
         $lastReport = $response->data->characterData->character->recentReports->data[0];
