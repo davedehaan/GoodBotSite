@@ -244,7 +244,7 @@ class APIController extends Controller
                 characterData {
                     character(name: "' . $character . '", serverSlug: "' . $server . '", serverRegion: "' . $region . '") {
                         id
-                        recentReports(limit: 3) {
+                        recentReports(limit: ' . $raid + 1 . ') {
                             data {
                                 startTime
                                 masterData {
