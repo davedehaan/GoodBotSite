@@ -219,7 +219,7 @@ class APIController extends Controller
         exit;
     }
 
-    public function gear($character, $server, $region) {
+    public function gear($character, $server, $region, $raid = 0) {
         if (empty(session()->get('wcl'))) {
             $this->wclToken();
         }
@@ -376,10 +376,14 @@ class APIController extends Controller
             }    
         }
 
-        $return = [
-            'raidTime' => date('Y-m-d H:i:s', $lastReport->startTime/1000),
-            'data' => $gearCache[$character]
-        ];
+        if (!isset($gearCache[$character])) {
+            $return = $this->gear($character, $server, $region, $raid + 1);
+        } else {
+            $return = [
+                'raidTime' => date('Y-m-d H:i:s', $lastReport->startTime/1000),
+                'data' => $gearCache[$character]
+            ];
+        }
 
         //TODO: CACHE GearCache
         return $return;
