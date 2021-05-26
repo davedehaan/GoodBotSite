@@ -75,6 +75,7 @@ Route::middleware(['api'])->group(function() {
     });
     
     Route::get('/raid/{raidID}', function($raidID) {
+        $guildID = request()->get('guildID');
         $raid = Raid::with(['signups', 'signups.reserve.item'])
             ->where('guildID', $guildID)
             ->find($raidID);
