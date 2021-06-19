@@ -63,13 +63,6 @@ class GoodBotController extends Controller
             return $bItem <=> $aItem;
          });
 
-        $hash = RaidHash::where('memberID', $raid->memberID)
-            ->where('guildID', $raid->guildID)
-            ->first();
-        if (!$hash || !$raid) {
-            abort(404);
-        }
-
         $items = ReserveItem::where('raid', $raid->raid)->orderBy('name')->get();
         
         return view('goodbot.reserves')
