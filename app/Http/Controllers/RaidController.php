@@ -226,15 +226,7 @@ class RaidController extends Controller
     }
 
     public function getRaid($raidID) {
-        $user = session()->get('user');
         $raid = Raid::findOrFail($raidID);
-        $validMembers = ['93398761979514880', $raid->memberID];
-        foreach ($raid->Leaders AS $leader) {
-            $validMembers[] = $leader->membedID;
-        }
-        if (!in_array($user->id, $validMembers)) {
-            abort(404);
-        }
         return $raid;
     }
 
