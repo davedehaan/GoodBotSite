@@ -66,7 +66,6 @@ class GoodBotController extends Controller
         $items = ReserveItem::where('raid', $raid->raid)->orderBy('name')->get();
         
         return view('goodbot.reserves')
-        ->with('hash', $hash)
         ->with('raid', $raid)
         ->with('items', $items)
         ->with('signups', $signupList);
