@@ -367,14 +367,24 @@ class APIController extends Controller
         foreach ($gearCache AS &$playerGear) {
             foreach ($playerGear AS &$bossFight) {
                 foreach ($bossFight['gear'] AS $key => &$playerGear) {
-                    $playerGear->itemName = $itemLookup[$playerGear->id];
+                    if (!empty($itemLookup[$playerGear->id])) {
+                        $playerGear->itemName = $itemLookup[$playerGear->id];
+                    } else {
+                        $playerGear->itemName = 'Unknown';
+                    }
                     if (property_exists($playerGear, 'permanentEnchant')) {
-                        $playerGear->enchantName = $enchantLookup[$playerGear->permanentEnchant];
+                        if (!empty($enchantLookup[$playerGear->permanentEnchant])) {
+                            $playerGear->enchantName = $enchantLookup[$playerGear->permanentEnchant];
+                        } else {
+                            $playerGear->enchantName = 'Unknown';
+                        }
                     }
                     $playerGear->slot = $gearSlots[$key];
                 }
             }    
         }
+
+        $character = ucfirst($character);
 
         if (!isset($gearCache[$character])) {
             $return = $this->gear($character, $server, $region, $raid + 1);
